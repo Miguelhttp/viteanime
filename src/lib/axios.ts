@@ -7,7 +7,8 @@ export const api = axios.create({
   timeout: 10000,
 });
 
-// Interceptors
+// Interceptors -> São middlewares que interceptam as requisições e respostas
+// No caso, estamos interceptando as respostas e logando os erros
 api.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -6,6 +6,9 @@ import Carousel from "../../animes/components/carousel/carousel";
 import { AnimeRow } from "../../animes/components/anime-row";
 
 export default function Home() {
+  // Custom Hooks personalizados para cada tipo de requisição
+  // Cada hook faz uma requisição diferente para a API
+  // trazendo os animes da temporada atual
   const { data: seasonalData, isLoading: isSeasonalLoading } =
     useCurrentSeasonAnimes();
 
@@ -26,7 +29,7 @@ export default function Home() {
       <Carousel
         animes={seasonalAnimes}
         isLoading={isSeasonalLoading}
-        error={seasonalData ? null : null} // Initializing with null as we handle states in Carousel
+        error={seasonalData ? null : null} // Inicializando com null pois tratamos os estados no Carousel
       />
 
       {/* Features */}
