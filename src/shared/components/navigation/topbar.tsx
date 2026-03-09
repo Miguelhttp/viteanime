@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Menu, Search, Github, Bell, X } from "lucide-react";
+import { Menu, Search, Bell, X } from "lucide-react";
+
 import { useNavigation } from "@/shared/hooks/use-navigation";
-import { useTheme } from "@/shared/hooks/use-theme";
+import { TypeaheadSearch } from "@/shared/components/ui/typeahead-search";
 
 export function Topbar() {
   const { toggleSidebarMobile } = useNavigation();
-  const { toggleTheme } = useTheme();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
@@ -13,21 +13,18 @@ export function Topbar() {
       {/* Mobile Search Overlay */}
       {isSearchOpen && (
         <div className="absolute inset-0 z-50 flex items-center bg-zinc-950 px-4 md:hidden">
-          <div className="relative flex-1">
-            <Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-            <input
-              autoFocus
-              type="text"
-              placeholder="Encontre seu anime..."
-              className="h-12 w-full rounded-2xl bg-white/5 pr-12 pl-12 text-sm text-white placeholder-zinc-500 ring-1 ring-white/10 focus:ring-white/20 focus:outline-none"
-            />
-            <button
-              onClick={() => setIsSearchOpen(false)}
-              className="absolute top-1/2 right-4 -translate-y-1/2 text-zinc-500 hover:text-white"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+          <TypeaheadSearch
+            placeholder="Encontre seu anime..."
+            className="flex-1"
+            inputClassName="h-12 rounded-2xl bg-white/5 pr-12 pl-12 text-sm text-white placeholder-zinc-500 ring-1 ring-white/10 focus:ring-white/20 focus:outline-none"
+            onSelect={() => setIsSearchOpen(false)}
+          />
+          <button
+            onClick={() => setIsSearchOpen(false)}
+            className="ml-3 shrink-0 rounded-full p-2 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
       )}
 
@@ -52,16 +49,12 @@ export function Topbar() {
         </span>
       </div>
 
-      {/* Busca - Desktop/Tablet */}
+      {/* Busca - Desktop/Tablet (Typeahead) */}
       <div className="hidden flex-1 items-center justify-center px-4 md:flex">
-        <div className="group relative w-full max-w-md transition-all">
-          <Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-zinc-500 transition-colors group-focus-within:text-white" />
-          <input
-            type="text"
-            placeholder="Encontre seu anime favorito..."
-            className="h-11 w-full rounded-2xl bg-white/5 pr-4 pl-12 text-sm text-white placeholder-zinc-500 ring-1 ring-white/10 transition-all focus:bg-zinc-900/80 focus:ring-white/20 focus:outline-none"
-          />
-        </div>
+        <TypeaheadSearch
+          placeholder="Encontre seu anime favorito..."
+          className="w-full max-w-md"
+        />
       </div>
 
       <div
@@ -81,14 +74,6 @@ export function Topbar() {
             title="Notificações"
           >
             <Bell className="h-5 w-5" />
-          </button>
-
-          <button
-            onClick={toggleTheme}
-            className="rounded-xl p-2.5 text-zinc-400 transition-all hover:bg-white/5 hover:text-white"
-            title="Github"
-          >
-            <Github className="h-5 w-5" />
           </button>
         </div>
       </div>

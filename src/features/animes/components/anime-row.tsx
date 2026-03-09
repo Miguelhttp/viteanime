@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router";
 import type { Anime } from "../types/anime";
 import { AnimeCard } from "./anime-card";
 import { ChevronRight, ChevronLeft } from "lucide-react";
@@ -7,9 +8,15 @@ interface AnimeRowProps {
   title: string;
   animes: Anime[];
   isLoading?: boolean;
+  viewAllHref?: string;
 }
 
-export function AnimeRow({ title, animes, isLoading }: AnimeRowProps) {
+export function AnimeRow({
+  title,
+  animes,
+  isLoading,
+  viewAllHref,
+}: AnimeRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -65,10 +72,20 @@ export function AnimeRow({ title, animes, isLoading }: AnimeRowProps) {
             ({animes.length})
           </span>
         </h2>
-        <button className="group flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-500 uppercase transition-colors hover:text-white sm:text-xs">
-          Ver Tudo
-          <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </button>
+        {viewAllHref ? (
+          <Link
+            to={viewAllHref}
+            className="group flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-500 uppercase transition-colors hover:text-white sm:text-xs"
+          >
+            Ver Tudo
+            <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        ) : (
+          <span className="flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-600 uppercase sm:text-xs">
+            Ver Tudo
+            <ChevronRight className="h-4 w-4" />
+          </span>
+        )}
       </div>
 
       <div className="relative">

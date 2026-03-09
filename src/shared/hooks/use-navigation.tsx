@@ -15,7 +15,14 @@ import {
   Bookmark,
 } from "lucide-react";
 
-export const NAV_ITEMS = [
+interface NavItem {
+  label: string;
+  path: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: string;
+}
+
+export const NAV_ITEMS: NavItem[] = [
   { label: "Home", path: "/", icon: Home },
   { label: "Animes", path: "/animes", icon: Compass },
   { label: "Temporada", path: "/seasonal", icon: Sparkles },

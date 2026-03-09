@@ -1,7 +1,7 @@
 import { useCurrentSeasonAnimes } from "../../animes/hooks/use-current-season-animes";
 import { useTopAnimes } from "../../animes/hooks/use-top-animes";
 import { useUpcomingAnimes } from "../../animes/hooks/use-upcoming-animes";
-import Features from "../../../shared/components/features/features";
+import { QuickStats } from "../../../shared/components/features/quick-stats";
 import Carousel from "../../animes/components/carousel/carousel";
 import { AnimeRow } from "../../animes/components/anime-row";
 
@@ -32,8 +32,11 @@ export default function Home() {
         error={seasonalData ? null : null} // Inicializando com null pois tratamos os estados no Carousel
       />
 
-      {/* Features */}
-      <Features />
+      {/* Quick Stats */}
+      <QuickStats
+        seasonalCount={seasonalAnimes.length}
+        topCount={topAnimes.length}
+      />
 
       {/* Section Rows */}
       <div className="flex flex-col gap-16">
@@ -41,18 +44,21 @@ export default function Home() {
           title="Temporada Atual"
           animes={seasonalAnimes}
           isLoading={isSeasonalLoading}
+          viewAllHref="/seasonal"
         />
 
         <AnimeRow
           title="Mais Populares"
           animes={topAnimes}
           isLoading={isTopLoading}
+          viewAllHref="/top"
         />
 
         <AnimeRow
           title="Próximos Lançamentos"
           animes={upcomingAnimes}
           isLoading={isUpcomingLoading}
+          viewAllHref="/animes"
         />
       </div>
     </div>
