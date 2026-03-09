@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useAnimeDetails } from "../hooks/use-anime-details";
 import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
+import { useWatchlist } from "@/shared/hooks/use-watchlist";
 import { AnimeRow } from "../components/anime-row";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
-import { Star, Play, ChevronLeft, Info } from "lucide-react";
+import { Star, Play, ChevronLeft, Info, Bookmark } from "lucide-react";
+
 import type { AnimeGenre, AnimeStudio, Anime } from "../types/anime";
 
 export default function AnimeDetailsPage() {
@@ -120,6 +122,7 @@ export default function AnimeDetailsPage() {
                   <Play className="h-5 w-5" />
                   TRAILER
                 </button>
+                <WatchlistButton anime={anime} />
               </div>
             </div>
           </div>
@@ -221,5 +224,24 @@ export default function AnimeDetailsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function WatchlistButton({ anime }: { anime: any }) {
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
+  const saved = isInWatchlist(anime.mal_id);
+
+  return (
+    <button
+      onClick={() => toggleWatchlist(anime)}
+      className={`flex items-center gap-3 rounded-xl px-8 py-4 font-black transition-all hover:scale-105 active:scale-95 sm:px-10 ${
+        saved
+          ? "bg-pink-600 text-white shadow-lg shadow-pink-600/30"
+          : "bg-zinc-900 text-zinc-300 ring-1 ring-zinc-800 hover:bg-zinc-800"
+      }`}
+    >
+      <Bookmark className={`h-5 w-5 ${saved ? "fill-current" : ""}`} />
+      {saved ? "SALVO" : "SALVAR"}
+    </button>
   );
 }

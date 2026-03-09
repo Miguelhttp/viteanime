@@ -21,7 +21,7 @@ export function AnimeCard({ anime }: AnimeCardProps) {
   return (
     <div
       onClick={() => navigate(`/anime/${anime.mal_id}`)}
-      className="group relative aspect-2/3 w-full min-w-[140px] cursor-pointer overflow-hidden rounded-xl bg-zinc-900 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] sm:min-w-[200px]"
+      className="group relative aspect-2/3 w-full min-w-35 cursor-pointer overflow-hidden rounded-xl bg-zinc-900 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] sm:min-w-50"
     >
       {/* Poster */}
       <OptimizedImage

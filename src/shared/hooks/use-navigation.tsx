@@ -5,12 +5,22 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { Home, Compass, Heart, User, LogOut } from "lucide-react";
+import {
+  Home,
+  Compass,
+  User,
+  LogOut,
+  Sparkles,
+  Trophy,
+  Bookmark,
+} from "lucide-react";
 
 export const NAV_ITEMS = [
   { label: "Home", path: "/", icon: Home },
   { label: "Animes", path: "/animes", icon: Compass },
-  { label: "Favoritos", path: "/favorites", icon: Heart, badge: "Em breve" },
+  { label: "Temporada", path: "/seasonal", icon: Sparkles },
+  { label: "Top Animes", path: "/top", icon: Trophy },
+  { label: "Minha Lista", path: "/watchlist", icon: Bookmark },
 ];
 
 export const USER_MENU_ITEMS = [
