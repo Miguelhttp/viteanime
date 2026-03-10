@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { useAnimeDetails } from "../hooks/use-anime-details";
 import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
 import { useUserLists, type ListType } from "@/shared/hooks/use-user-lists";
+import { useAuth } from "@/shared/contexts/auth-context";
 import { AnimeRow } from "../components/anime-row";
 import { AnimeDetailsSkeleton } from "../components/skeletons";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
@@ -241,9 +242,16 @@ export default function AnimeDetailsPage() {
 
 function UserListActions({ anime }: { anime: any }) {
   const { getItemListType, addToList, removeFromList } = useUserLists();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const currentListType = getItemListType(anime.mal_id);
 
   const handleToggle = (type: ListType) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     if (currentListType === type) {
       removeFromList(anime.mal_id); // Remove se clicar no mesmo stat
     } else {

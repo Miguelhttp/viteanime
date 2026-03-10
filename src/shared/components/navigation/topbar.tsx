@@ -3,10 +3,14 @@ import { Menu, Search, Bell, X } from "lucide-react";
 
 import { useNavigation } from "@/shared/hooks/use-navigation";
 import { TypeaheadSearch } from "@/shared/components/ui/typeahead-search";
+import { useAuth } from "@/shared/contexts/auth-context";
+import { Link } from "react-router";
 
 export function Topbar() {
   const { toggleSidebarMobile } = useNavigation();
+  const { user, logout } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-white/5 bg-zinc-950/50 px-4 backdrop-blur-2xl transition-all sm:h-20 sm:px-8 lg:border-none lg:bg-transparent">
@@ -38,7 +42,15 @@ export function Topbar() {
           <Menu className="h-5 w-5" />
         </button>
         <div className="hidden text-sm font-medium text-zinc-400 lg:block">
-          Bem-vindo, <span className="text-white">Visitante</span>
+          {user ? (
+            <>
+              Bem-vindo, <span className="text-white">{user.name}</span>
+            </>
+          ) : (
+            <>
+              Bem-vindo, <span className="text-white">Visitante</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -75,6 +87,56 @@ export function Topbar() {
           >
             <Bell className="h-5 w-5" />
           </button>
+
+          {/* User Auth Module */}
+          <div className="relative ml-2">
+            {user ? (
+              <>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 to-indigo-600 text-base font-bold text-white uppercase shadow-lg transition-transform hover:scale-105 active:scale-95"
+                  title="Perfil"
+                >
+                  {user.name.charAt(0)}
+                </button>
+                {isProfileOpen && (
+                  <>
+                    {/* Invisible overlay to close dropdown */}
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setIsProfileOpen(false)}
+                    />
+                    <div className="animate-in slide-in-from-top-2 fade-in absolute top-12 right-0 z-50 w-48 rounded-2xl border border-zinc-800 bg-zinc-900 p-2 shadow-2xl">
+                      <div className="mb-2 border-b border-zinc-800/50 px-3 py-2">
+                        <p className="truncate text-sm font-bold text-white">
+                          {user.name}
+                        </p>
+                        <p className="truncate text-xs text-zinc-500">
+                          {user.email}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsProfileOpen(false);
+                        }}
+                        className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
+                      >
+                        Sair da Conta
+                      </button>
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-blue-500"
+              >
+                Entrar
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>
