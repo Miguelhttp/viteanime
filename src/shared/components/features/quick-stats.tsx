@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { Flame, Trophy, Bookmark, Layers } from "lucide-react";
-import { useWatchlist } from "@/shared/hooks/use-watchlist";
+import { Flame, Trophy, Layers, Library } from "lucide-react";
+import { useUserLists } from "@/shared/hooks/use-user-lists";
 import { useGenres } from "@/features/animes/hooks/use-genres";
 
 interface StatCardProps {
@@ -56,7 +56,7 @@ interface QuickStatsProps {
 }
 
 export function QuickStats({ seasonalCount, topCount }: QuickStatsProps) {
-  const { count: watchlistCount } = useWatchlist();
+  const { stats: userListStats } = useUserLists();
   const { data: genresData } = useGenres();
   const genreCount = genresData?.data?.length || 0;
 
@@ -80,12 +80,12 @@ export function QuickStats({ seasonalCount, topCount }: QuickStatsProps) {
       href: "/top",
     },
     {
-      icon: Bookmark,
-      label: "Na Sua Lista",
-      value: watchlistCount,
-      color: "text-pink-400",
-      bg: "bg-pink-500/10",
-      glow: "bg-pink-500",
+      icon: Library,
+      label: "Sua Biblioteca",
+      value: userListStats.total,
+      color: "text-violet-400",
+      bg: "bg-violet-500/10",
+      glow: "bg-violet-500",
       href: "/watchlist",
     },
     {

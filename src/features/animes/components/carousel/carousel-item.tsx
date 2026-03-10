@@ -1,5 +1,6 @@
 import type { Anime } from "../../types/anime";
 import { Star } from "lucide-react";
+import { Link } from "react-router";
 
 interface CarouselItemProps {
   anime: Anime;
@@ -69,9 +70,12 @@ export const CarouselItem = ({
         )}
 
         <div className="animate-text pt-2 sm:pt-4">
-          <button className="rounded-full bg-white px-6 py-2.5 text-sm font-bold text-black transition-all hover:scale-105 hover:bg-zinc-200 active:scale-95 sm:px-8 sm:py-3 sm:text-base">
+          <Link
+            to={`/anime/${anime.mal_id}`}
+            className="inline-block rounded-full bg-white px-6 py-2.5 text-sm font-bold text-black transition-all hover:scale-105 hover:bg-zinc-200 active:scale-95 sm:px-8 sm:py-3 sm:text-base"
+          >
             Ver Detalhes
-          </button>
+          </Link>
         </div>
       </div>
     </div>

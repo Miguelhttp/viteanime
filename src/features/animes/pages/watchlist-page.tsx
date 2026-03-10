@@ -1,64 +1,104 @@
-import { useWatchlist } from "@/shared/hooks/use-watchlist";
+import { useState } from "react";
+import { useUserLists, type ListType } from "@/shared/hooks/use-user-lists";
 import { AnimeGrid } from "../components/anime-grid";
-import { Bookmark, Trash2 } from "lucide-react";
+import { Bookmark, Heart, CheckCircle2, Library } from "lucide-react";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 
 export default function WatchlistPage() {
-  useDocumentTitle("Minha Lista");
-  const { watchlist, removeFromWatchlist } = useWatchlist();
+  useDocumentTitle("Minha Biblioteca");
+  const { getListByType, stats } = useUserLists();
+  const [activeTab, setActiveTab] = useState<ListType>("watchlist");
+
+  const currentList = getListByType(activeTab);
+
+  const TABS: { id: ListType; label: string; icon: any; count: number }[] = [
+    {
+      id: "watchlist",
+      label: "Quero Assistir",
+      icon: Bookmark,
+      count: stats.watchlist,
+    },
+    { id: "favorite", label: "Favoritos", icon: Heart, count: stats.favorite },
+    {
+      id: "completed",
+      label: "Já Assisti",
+      icon: CheckCircle2,
+      count: stats.completed,
+    },
+  ];
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-24 pb-20 sm:px-6">
       {/* Header */}
-      <div className="space-y-2">
+      <div className="space-y-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-600 shadow-lg shadow-pink-600/30">
-            <Bookmark className="h-5 w-5 text-white" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-violet-600 to-fuchsia-600 shadow-lg shadow-violet-600/30">
+            <Library className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
-              Minha Lista
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Minha Biblioteca
             </h1>
-            <p className="text-sm text-zinc-400">
-              {watchlist.length > 0
-                ? `${watchlist.length} anime${watchlist.length > 1 ? "s" : ""} salvos`
-                : "Sua lista de animes para assistir"}
+            <p className="mt-1 text-sm text-zinc-400">
+              {stats.total > 0
+                ? `${stats.total} animes salvos no total`
+                : "Seu acervo pessoal de animes"}
             </p>
+          </div>
+        </div>
+
+        {/* Tabs System */}
+        <div className="scrollbar-hide flex overflow-x-auto pb-2">
+          <div className="flex gap-2 rounded-2xl bg-zinc-900/50 p-1.5 ring-1 ring-white/5">
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${
+                    isActive
+                      ? "bg-zinc-800 text-white shadow-sm ring-1 ring-white/10"
+                      : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+                  }`}
+                >
+                  <Icon
+                    className={`h-4 w-4 ${isActive ? "text-blue-400" : ""}`}
+                  />
+                  {tab.label}
+                  <span
+                    className={`ml-1.5 rounded-full px-2 py-0.5 text-xs ${
+                      isActive
+                        ? "bg-blue-500/20 text-blue-400"
+                        : "bg-zinc-800 text-zinc-500"
+                    }`}
+                  >
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
       {/* Content */}
-      {watchlist.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 py-32">
-          <Bookmark className="h-16 w-16 text-zinc-700" />
+      {currentList.length === 0 ? (
+        <div className="animate-in fade-in flex flex-col items-center justify-center gap-4 py-32 duration-500">
+          <Library className="h-16 w-16 text-zinc-800" />
           <h2 className="text-xl font-bold text-zinc-400">
-            Nenhum anime salvo ainda
+            Esta lista está vazia
           </h2>
           <p className="max-w-md text-center text-sm text-zinc-500">
-            Explore os animes e clique no ícone de favorito para adicionar à sua
-            lista. Eles aparecerão aqui!
+            Navegue pelos animes e adicione-os à sua biblioteca usando os botões
+            na página de detalhes.
           </p>
         </div>
       ) : (
-        <>
-          {/* Clear All */}
-          <div className="flex justify-end">
-            <button
-              onClick={() =>
-                watchlist.forEach((a) => removeFromWatchlist(a.mal_id))
-              }
-              className="flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-red-400 ring-1 ring-zinc-800 transition-all hover:bg-red-500/10 hover:text-red-300"
-            >
-              <Trash2 className="h-4 w-4" />
-              Limpar Lista
-            </button>
-          </div>
-
-          <div className="min-h-[400px]">
-            <AnimeGrid animes={watchlist} isLoading={false} />
-          </div>
-        </>
+        <div className="animate-in fade-in slide-in-from-bottom-4 min-h-[400px] duration-500">
+          <AnimeGrid animes={currentList} isLoading={false} />
+        </div>
       )}
     </div>
   );

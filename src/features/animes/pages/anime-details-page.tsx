@@ -2,12 +2,20 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useAnimeDetails } from "../hooks/use-anime-details";
 import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
-import { useWatchlist } from "@/shared/hooks/use-watchlist";
+import { useUserLists, type ListType } from "@/shared/hooks/use-user-lists";
 import { AnimeRow } from "../components/anime-row";
 import { AnimeDetailsSkeleton } from "../components/skeletons";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
-import { Star, Play, ChevronLeft, Info, Bookmark } from "lucide-react";
+import {
+  Star,
+  Play,
+  ChevronLeft,
+  Info,
+  Bookmark,
+  Heart,
+  CheckCircle2,
+} from "lucide-react";
 
 import type { AnimeGenre, AnimeStudio, Anime } from "../types/anime";
 
@@ -122,7 +130,11 @@ export default function AnimeDetailsPage() {
                   <Play className="h-5 w-5" />
                   TRAILER
                 </button>
-                <WatchlistButton anime={anime} />
+              </div>
+
+              {/* Painel de Coleção de Listas do Usuário */}
+              <div className="mt-6 w-full max-w-sm border-t border-zinc-900 pt-6">
+                <UserListActions anime={anime} />
               </div>
             </div>
           </div>
@@ -227,21 +239,72 @@ export default function AnimeDetailsPage() {
   );
 }
 
-function WatchlistButton({ anime }: { anime: any }) {
-  const { isInWatchlist, toggleWatchlist } = useWatchlist();
-  const saved = isInWatchlist(anime.mal_id);
+function UserListActions({ anime }: { anime: any }) {
+  const { getItemListType, addToList, removeFromList } = useUserLists();
+  const currentListType = getItemListType(anime.mal_id);
+
+  const handleToggle = (type: ListType) => {
+    if (currentListType === type) {
+      removeFromList(anime.mal_id); // Remove se clicar no mesmo stat
+    } else {
+      addToList(anime, type);
+    }
+  };
+
+  const actions: {
+    id: ListType;
+    label: string;
+    icon: any;
+    color: string;
+    bg: string;
+  }[] = [
+    {
+      id: "favorite",
+      label: "Favorito",
+      icon: Heart,
+      color: "text-red-500",
+      bg: "bg-red-500/10 ring-red-500/30",
+    },
+    {
+      id: "watchlist",
+      label: "Assistir",
+      icon: Bookmark,
+      color: "text-blue-500",
+      bg: "bg-blue-500/10 ring-blue-500/30",
+    },
+    {
+      id: "completed",
+      label: "Completo",
+      icon: CheckCircle2,
+      color: "text-green-500",
+      bg: "bg-green-500/10 ring-green-500/30",
+    },
+  ];
 
   return (
-    <button
-      onClick={() => toggleWatchlist(anime)}
-      className={`flex items-center gap-3 rounded-xl px-8 py-4 font-black transition-all hover:scale-105 active:scale-95 sm:px-10 ${
-        saved
-          ? "bg-pink-600 text-white shadow-lg shadow-pink-600/30"
-          : "bg-zinc-900 text-zinc-300 ring-1 ring-zinc-800 hover:bg-zinc-800"
-      }`}
-    >
-      <Bookmark className={`h-5 w-5 ${saved ? "fill-current" : ""}`} />
-      {saved ? "SALVO" : "SALVAR"}
-    </button>
+    <div className="flex flex-col gap-2">
+      <p className="pl-1 text-xs font-medium tracking-widest text-zinc-500 uppercase">
+        Minha Biblioteca
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {actions.map(({ id, label, icon: Icon, color, bg }) => {
+          const isActive = currentListType === id;
+          return (
+            <button
+              key={id}
+              onClick={() => handleToggle(id)}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-bold transition-all sm:text-sm ${
+                isActive
+                  ? `${bg} ${color} ring-1`
+                  : "bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 hover:bg-zinc-800 hover:text-zinc-300"
+              }`}
+            >
+              <Icon className={`h-4 w-4 ${isActive ? "fill-current" : ""}`} />
+              {label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
