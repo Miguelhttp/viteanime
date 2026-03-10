@@ -15,11 +15,15 @@ export const CarouselItem = ({
   <div className="relative h-full w-full shrink-0 overflow-hidden">
     <picture>
       <source
-        srcSet={anime.images.webp.image_url || anime.images.jpg.image_url || ""}
+        srcSet={
+          anime.images.webp.large_image_url ||
+          anime.images.jpg.large_image_url ||
+          ""
+        }
         type="image/webp"
       />
       <img
-        src={anime.images.jpg.image_url || ""}
+        src={anime.images.jpg.large_image_url || ""}
         alt={anime.title}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />

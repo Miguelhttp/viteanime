@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router";
 import { useSearchAnimes } from "../hooks/use-search-animes";
 import { useGenres } from "../hooks/use-genres";
 import { AnimeGrid } from "../components/anime-grid";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import {
   Search,
   ChevronLeft,
@@ -35,6 +36,8 @@ const ORDERS = [
 ];
 
 export default function Animes() {
+  useDocumentTitle("Explorar Animes");
+
   // Hook para manipular os parâmetros da URL
   // searchParams -> lê os parâmetros da URL
   // setSearchParams -> atualiza os parâmetros da URL

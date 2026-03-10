@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useTopAnimes } from "../hooks/use-top-animes";
 import { AnimeGrid } from "../components/anime-grid";
 import { ChevronLeft, ChevronRight, Trophy } from "lucide-react";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 
 export default function TopAnimesPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useTopAnimes(page);
+
+  useDocumentTitle("Top Animes");
 
   const hasNextPage = data?.pagination?.has_next_page || false;
   const totalPages = data?.pagination?.last_visible_page || 1;

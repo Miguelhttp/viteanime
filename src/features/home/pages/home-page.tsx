@@ -4,11 +4,14 @@ import { useUpcomingAnimes } from "../../animes/hooks/use-upcoming-animes";
 import { QuickStats } from "../../../shared/components/features/quick-stats";
 import Carousel from "../../animes/components/carousel/carousel";
 import { AnimeRow } from "../../animes/components/anime-row";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 
 export default function Home() {
   // Custom Hooks personalizados para cada tipo de requisição
   // Cada hook faz uma requisição diferente para a API
   // trazendo os animes da temporada atual
+  useDocumentTitle("Início");
+
   const { data: seasonalData, isLoading: isSeasonalLoading } =
     useCurrentSeasonAnimes();
 

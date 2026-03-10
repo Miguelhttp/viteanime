@@ -5,6 +5,7 @@ import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
 import { useWatchlist } from "@/shared/hooks/use-watchlist";
 import { AnimeRow } from "../components/anime-row";
 import { AnimeDetailsSkeleton } from "../components/skeletons";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
 import { Star, Play, ChevronLeft, Info, Bookmark } from "lucide-react";
 
@@ -16,6 +17,8 @@ export default function AnimeDetailsPage() {
   const { data: response, isLoading, error } = useAnimeDetails(Number(id));
   const { data: recommendationsData, isLoading: isRecommendationsLoading } =
     useAnimeRecommendations(Number(id));
+
+  useDocumentTitle(response?.data?.title || "Detalhes do Anime");
 
   useEffect(() => {
     window.scrollTo(0, 0);

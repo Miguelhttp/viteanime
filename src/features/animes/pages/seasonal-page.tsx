@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useSeasonalAnimes } from "../hooks/use-seasonal-animes";
 import { AnimeGrid } from "../components/anime-grid";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 
 export default function SeasonalPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useSeasonalAnimes(page);
+
+  useDocumentTitle("Temporada Atual");
 
   const hasNextPage = data?.pagination?.has_next_page || false;
   const totalPages = data?.pagination?.last_visible_page || 1;

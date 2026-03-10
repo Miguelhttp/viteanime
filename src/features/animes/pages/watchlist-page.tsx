@@ -1,8 +1,10 @@
 import { useWatchlist } from "@/shared/hooks/use-watchlist";
 import { AnimeGrid } from "../components/anime-grid";
 import { Bookmark, Trash2 } from "lucide-react";
+import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 
 export default function WatchlistPage() {
+  useDocumentTitle("Minha Lista");
   const { watchlist, removeFromWatchlist } = useWatchlist();
 
   return (
