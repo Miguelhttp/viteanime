@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router";
 import type { Anime } from "../types/anime";
 import { AnimeCard } from "./anime-card";
+import { AnimeCardSkeleton } from "./skeletons";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
 interface AnimeRowProps {
@@ -47,14 +49,16 @@ export function AnimeRow({
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        <div className="h-8 w-48 animate-pulse rounded-lg bg-zinc-900" />
-        <div className="flex gap-4 overflow-hidden">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex items-center justify-between px-1">
+          <Skeleton className="h-8 w-48 bg-zinc-800" />
+          <Skeleton className="h-4 w-16 bg-zinc-800" />
+        </div>
+        <div className="flex gap-3 overflow-hidden sm:gap-6">
           {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="aspect-2/3 w-[160px] shrink-0 animate-pulse rounded-xl bg-zinc-900 sm:w-[200px]"
-            />
+            <div key={i} className="w-[140px] shrink-0 sm:w-[200px]">
+              <AnimeCardSkeleton />
+            </div>
           ))}
         </div>
       </div>

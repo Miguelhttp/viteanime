@@ -1,9 +1,9 @@
-import { Loader } from "lucide-react";
 import type { CarouselProps } from "../../types/anime";
 import { useCarousel } from "../../hooks/use-carousel";
 import { CarouselItem } from "./carousel-item";
 import { CarouselControls } from "./carousel-controls";
 import { CarouselPagination } from "./carousel-pagination";
+import { CarouselSkeleton } from "../skeletons";
 
 export default function Carousel({ animes, isLoading, error }: CarouselProps) {
   const {
@@ -17,11 +17,7 @@ export default function Carousel({ animes, isLoading, error }: CarouselProps) {
   } = useCarousel(animes, isLoading, error);
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-[400px] items-center justify-center rounded-2xl bg-zinc-900 md:min-h-[600px]">
-        <Loader className="text-primary h-10 w-10 animate-spin" />
-      </div>
-    );
+    return <CarouselSkeleton />;
   }
 
   if (error || !animes || animes.length === 0) {

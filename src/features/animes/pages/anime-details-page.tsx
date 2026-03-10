@@ -4,6 +4,7 @@ import { useAnimeDetails } from "../hooks/use-anime-details";
 import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
 import { useWatchlist } from "@/shared/hooks/use-watchlist";
 import { AnimeRow } from "../components/anime-row";
+import { AnimeDetailsSkeleton } from "../components/skeletons";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
 import { Star, Play, ChevronLeft, Info, Bookmark } from "lucide-react";
 
@@ -21,11 +22,7 @@ export default function AnimeDetailsPage() {
   }, [id]);
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="h-12 w-12 animate-spin rounded-full border-t-2 border-blue-500" />
-      </div>
-    );
+    return <AnimeDetailsSkeleton />;
   }
 
   if (error || !response?.data) {

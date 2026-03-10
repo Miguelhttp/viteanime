@@ -1,4 +1,5 @@
 import { AnimeCard } from "./anime-card";
+import { AnimeCardSkeleton } from "./skeletons";
 import type { Anime } from "../types/anime";
 
 interface AnimeGridProps {
@@ -9,12 +10,9 @@ interface AnimeGridProps {
 export function AnimeGrid({ animes, isLoading }: AnimeGridProps) {
   if (isLoading && animes.length === 0) {
     return (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {Array.from({ length: 12 }).map((_, i) => (
-          <div
-            key={i}
-            className="aspect-2/3 w-full animate-pulse rounded-xl bg-zinc-800/50"
-          />
+          <AnimeCardSkeleton key={i} />
         ))}
       </div>
     );

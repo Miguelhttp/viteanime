@@ -13,11 +13,25 @@ import {
 } from "lucide-react";
 
 const CATEGORIES = [
-  { id: "all", label: "Tudo", value: undefined },
-  { id: "tv", label: "TV", value: "tv" },
-  { id: "movie", label: "Filmes", value: "movie" },
+  { id: "all", label: "Qualquer Formato", value: undefined },
+  { id: "tv", label: "Série TV", value: "tv" },
+  { id: "movie", label: "Filme", value: "movie" },
   { id: "ova", label: "OVA", value: "ova" },
-  { id: "special", label: "Especiais", value: "special" },
+  { id: "special", label: "Especial", value: "special" },
+];
+
+const STATUSES = [
+  { id: "all", label: "Qualquer Status", value: undefined },
+  { id: "airing", label: "Em Lançamento", value: "airing" },
+  { id: "complete", label: "Completo", value: "complete" },
+  { id: "upcoming", label: "Por Lançar", value: "upcoming" },
+];
+
+const ORDERS = [
+  { id: "members-desc", label: "Popularidade", value: "members-desc" },
+  { id: "score-desc", label: "Melhor Avaliado", value: "score-desc" },
+  { id: "title-asc", label: "Título (A-Z)", value: "title-asc" },
+  { id: "start_date-desc", label: "Mais Recente", value: "start_date-desc" },
 ];
 
 export default function Animes() {
@@ -29,9 +43,9 @@ export default function Animes() {
   const query = searchParams.get("q") || "";
   // Pega a página atual
   const page = parseInt(searchParams.get("page") || "1");
-  // Pega o tipo
   const type = (searchParams.get("type") as any) || undefined;
-  // Pega o gênero
+  const status = (searchParams.get("status") as any) || undefined;
+  const orderStr = searchParams.get("sort") || "";
   const genreId = searchParams.get("genre") || "";
 
   const [localSearch, setLocalSearch] = useState(query);
@@ -40,11 +54,18 @@ export default function Animes() {
   const [genreFilter, setGenreFilter] = useState("");
   const genreDropdownRef = useRef<HTMLDivElement>(null);
 
+  const [orderBy, sortDirection] = orderStr
+    ? orderStr.split("-")
+    : [undefined, undefined];
+
   // Hook para buscar os animes, passando os parâmetros da URL
   const { data, isLoading } = useSearchAnimes({
     q: query,
     page,
     type,
+    status,
+    order_by: orderBy,
+    sort: sortDirection as "asc" | "desc",
     genres: genreId,
     limit: 24,
   });
@@ -84,6 +105,24 @@ export default function Animes() {
     setSearchParams((prev) => {
       if (newType) prev.set("type", newType);
       else prev.delete("type");
+      prev.set("page", "1");
+      return prev;
+    });
+  };
+
+  const handleStatusChange = (newStatus: string) => {
+    setSearchParams((prev) => {
+      if (newStatus) prev.set("status", newStatus);
+      else prev.delete("status");
+      prev.set("page", "1");
+      return prev;
+    });
+  };
+
+  const handleOrderChange = (newOrder: string) => {
+    setSearchParams((prev) => {
+      if (newOrder) prev.set("sort", newOrder);
+      else prev.delete("sort");
       prev.set("page", "1");
       return prev;
     });
@@ -243,21 +282,58 @@ export default function Animes() {
         </div>
       </div>
 
-      {/* Categories / Filters */}
-      <div className="flex flex-wrap gap-2">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => handleTypeChange(cat.value)}
-            className={`cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-all ${
-              type === cat.value
-                ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                : "bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 hover:bg-zinc-800 hover:text-zinc-200"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      {/* Advanced Filters */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div className="flex flex-wrap gap-3">
+          {/* Formato Dropdown */}
+          <div className="relative">
+            <select
+              value={type || ""}
+              onChange={(e) => handleTypeChange(e.target.value)}
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-sm font-medium text-zinc-300 ring-1 ring-zinc-800 transition-all focus:bg-zinc-800/50 focus:ring-2 focus:ring-blue-500/50"
+            >
+              {CATEGORIES.map((cat) => (
+                <option key={cat.id} value={cat.value || ""}>
+                  {cat.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+          </div>
+
+          {/* Status Dropdown */}
+          <div className="relative">
+            <select
+              value={status || ""}
+              onChange={(e) => handleStatusChange(e.target.value)}
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-sm font-medium text-zinc-300 ring-1 ring-zinc-800 transition-all focus:bg-zinc-800/50 focus:ring-2 focus:ring-blue-500/50"
+            >
+              {STATUSES.map((stat) => (
+                <option key={stat.id} value={stat.value || ""}>
+                  {stat.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+          </div>
+
+          {/* Ordenação Dropdown */}
+          <div className="relative">
+            <select
+              value={orderStr || ""}
+              onChange={(e) => handleOrderChange(e.target.value)}
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-sm font-medium text-zinc-300 ring-1 ring-zinc-800 transition-all focus:bg-zinc-800/50 focus:ring-2 focus:ring-blue-500/50"
+            >
+              <option value="">Ordenar por (Padrão)</option>
+              {ORDERS.map((ord) => (
+                <option key={ord.id} value={ord.value}>
+                  {ord.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+          </div>
+        </div>
       </div>
 
       {/* Grid */}
