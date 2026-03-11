@@ -2,6 +2,8 @@ import { useLocation, useOutlet } from "react-router";
 import { AnimatePresence } from "motion/react";
 import { Sidebar } from "@/shared/components/navigation/sidebar";
 import { Topbar } from "@/shared/components/navigation/topbar";
+import { Footer } from "@/shared/components/navigation/footer";
+import { FeedbackWidget } from "@/shared/components/ui/feedback-widget";
 import { useNavigation } from "@/shared/hooks/use-navigation";
 import { PageTransition } from "@/shared/components/ui/page-transition";
 
@@ -29,7 +31,11 @@ export default function MainLayout() {
             </AnimatePresence>
           </div>
         </main>
+
+        <Footer />
       </div>
+
+      <FeedbackWidget />
     </div>
   );
 }
