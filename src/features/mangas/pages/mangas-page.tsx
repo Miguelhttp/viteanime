@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router";
-import { useSearchAnimes } from "../hooks/use-search-animes";
-import { useGenres } from "../hooks/use-genres";
-import { AnimeGrid } from "../components/anime-grid";
+import { useSearchMangas } from "../hooks/use-search-mangas";
+import { useMangaGenres } from "../hooks/use-manga-genres";
+import { MangaGrid } from "../components/manga-grid";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import {
   Search,
@@ -15,15 +15,17 @@ import {
 
 const CATEGORIES = [
   { id: "all", label: "Qualquer Formato", value: undefined },
-  { id: "tv", label: "Série TV", value: "tv" },
-  { id: "movie", label: "Filme", value: "movie" },
-  { id: "ova", label: "OVA", value: "ova" },
-  { id: "special", label: "Especial", value: "special" },
+  { id: "manga", label: "Mangá", value: "manga" },
+  { id: "novel", label: "Novel", value: "novel" },
+  { id: "lightnovel", label: "Light Novel", value: "lightnovel" },
+  { id: "oneshot", label: "One-shot", value: "oneshot" },
+  { id: "manhwa", label: "Manhwa", value: "manhwa" },
+  { id: "manhua", label: "Manhua", value: "manhua" },
 ];
 
 const STATUSES = [
   { id: "all", label: "Qualquer Status", value: undefined },
-  { id: "airing", label: "Em Lançamento", value: "airing" },
+  { id: "publishing", label: "Em Publicação", value: "publishing" },
   { id: "complete", label: "Completo", value: "complete" },
   { id: "upcoming", label: "Por Lançar", value: "upcoming" },
 ];
@@ -32,19 +34,14 @@ const ORDERS = [
   { id: "members-desc", label: "Popularidade", value: "members-desc" },
   { id: "score-desc", label: "Melhor Avaliado", value: "score-desc" },
   { id: "title-asc", label: "Título (A-Z)", value: "title-asc" },
-  { id: "start_date-desc", label: "Mais Recente", value: "start_date-desc" },
+  { id: "published-desc", label: "Mais Recente", value: "published-desc" },
 ];
 
-export default function Animes() {
-  useDocumentTitle("Explorar Animes");
+export default function MangasPage() {
+  useDocumentTitle("Explorar Mangás");
 
-  // Hook para manipular os parâmetros da URL
-  // searchParams -> lê os parâmetros da URL
-  // setSearchParams -> atualiza os parâmetros da URL
   const [searchParams, setSearchParams] = useSearchParams();
-  // Pega os parâmetros da URL
   const query = searchParams.get("q") || "";
-  // Pega a página atual
   const page = parseInt(searchParams.get("page") || "1");
   const type = (searchParams.get("type") as any) || undefined;
   const status = (searchParams.get("status") as any) || undefined;
@@ -52,7 +49,7 @@ export default function Animes() {
   const genreId = searchParams.get("genre") || "";
 
   const [localSearch, setLocalSearch] = useState(query);
-  const { data: genresData } = useGenres();
+  const { data: genresData } = useMangaGenres();
   const [isGenreOpen, setIsGenreOpen] = useState(false);
   const [genreFilter, setGenreFilter] = useState("");
   const genreDropdownRef = useRef<HTMLDivElement>(null);
@@ -61,8 +58,7 @@ export default function Animes() {
     ? orderStr.split("-")
     : [undefined, undefined];
 
-  // Hook para buscar os animes, passando os parâmetros da URL
-  const { data, isLoading } = useSearchAnimes({
+  const { data, isLoading } = useSearchMangas({
     q: query,
     page,
     type,
@@ -73,7 +69,6 @@ export default function Animes() {
     limit: 24,
   });
 
-  // Debounce para busca
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localSearch !== query) {
@@ -89,7 +84,6 @@ export default function Animes() {
     return () => clearTimeout(timer);
   }, [localSearch, query, setSearchParams]);
 
-  // Fecha dropdown ao clicar fora
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -156,19 +150,15 @@ export default function Animes() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-24 pb-20 sm:px-6">
-      {/* Header & Search */}
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Explorar Animes
+            Explorar Mangás
           </h1>
-          <p className="text-slate-400">
-            Descubra milhares de títulos da nossa biblioteca.
-          </p>
+          <p className="text-slate-400">Encontre suas obras favoritas.</p>
         </div>
 
         <div className="flex w-full max-w-xl flex-col gap-4 sm:flex-row sm:items-center">
-          {/* Dropdown de Gêneros (Customizado) */}
           <div
             ref={genreDropdownRef}
             className="relative flex-1 sm:max-w-[220px]"
@@ -208,10 +198,8 @@ export default function Animes() {
               />
             </button>
 
-            {/* Dropdown Panel */}
             {isGenreOpen && (
               <div className="absolute top-full left-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl shadow-black/50">
-                {/* Busca interna */}
                 <div className="border-b border-white/5 p-3">
                   <div className="relative">
                     <Search className="absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
@@ -226,7 +214,6 @@ export default function Animes() {
                   </div>
                 </div>
 
-                {/* Lista de Gêneros */}
                 <ul className="max-h-56 overflow-y-auto py-1">
                   <li>
                     <button
@@ -263,11 +250,10 @@ export default function Animes() {
             )}
           </div>
 
-          {/* Busca por Nome */}
           <div className="relative flex-[1.5]">
             <input
               type="text"
-              placeholder="Buscar por nome..."
+              placeholder="Buscar mangá..."
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
               className="w-full rounded-xl border-none bg-slate-900 px-12 py-3.5 text-sm text-slate-100 ring-1 ring-slate-800 transition-all placeholder:text-slate-500 focus:bg-slate-800/50 focus:ring-2 focus:ring-blue-500/20"
@@ -285,10 +271,8 @@ export default function Animes() {
         </div>
       </div>
 
-      {/* Advanced Filters */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-wrap gap-3">
-          {/* Formato Dropdown */}
           <div className="relative">
             <select
               value={type || ""}
@@ -304,7 +288,6 @@ export default function Animes() {
             <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-zinc-500" />
           </div>
 
-          {/* Status Dropdown */}
           <div className="relative">
             <select
               value={status || ""}
@@ -320,14 +303,12 @@ export default function Animes() {
             <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-zinc-500" />
           </div>
 
-          {/* Ordenação Dropdown */}
           <div className="relative">
             <select
-              value={orderStr || ""}
+              value={orderStr || "members-desc"}
               onChange={(e) => handleOrderChange(e.target.value)}
               className="appearance-none rounded-xl border-none bg-slate-900 py-2.5 pr-10 pl-4 text-xs font-bold text-slate-300 ring-1 ring-slate-800 transition-all hover:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
             >
-              <option value="">Ordenar por (Padrão)</option>
               {ORDERS.map((ord) => (
                 <option key={ord.id} value={ord.value}>
                   {ord.label}
@@ -339,32 +320,32 @@ export default function Animes() {
         </div>
       </div>
 
-      {/* Grid */}
       <div className="min-h-[400px]">
-        <AnimeGrid animes={data?.data || []} isLoading={isLoading} />
+        <MangaGrid mangas={data?.data || []} isLoading={isLoading} />
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4">
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1 || isLoading}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-slate-900 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-zinc-100 text-zinc-500 ring-1 ring-zinc-200 transition-all hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-900 dark:text-zinc-400 dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
 
           <div className="flex items-center gap-2 text-sm font-medium">
-            <span className="text-white">{page}</span>
-            <span className="text-slate-500">de</span>
-            <span className="text-slate-500">{totalPages}</span>
+            <span className="text-zinc-900 dark:text-zinc-100">{page}</span>
+            <span className="text-zinc-400 dark:text-zinc-500">de</span>
+            <span className="text-zinc-400 dark:text-zinc-500">
+              {totalPages}
+            </span>
           </div>
 
           <button
             onClick={() => handlePageChange(page + 1)}
             disabled={!hasNextPage || isLoading}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-slate-900 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-zinc-100 text-zinc-500 ring-1 ring-zinc-200 transition-all hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-900 dark:text-zinc-400 dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

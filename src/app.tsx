@@ -18,6 +18,15 @@ const Seasonal = lazy(() => import("@/features/animes/pages/seasonal-page"));
 const TopAnimes = lazy(() => import("@/features/animes/pages/top-animes-page"));
 const Watchlist = lazy(() => import("@/features/animes/pages/watchlist-page"));
 
+// Manga Pages
+const Mangas = lazy(() => import("@/features/mangas/pages/mangas-page"));
+const MangaDetails = lazy(
+  () => import("@/features/mangas/pages/manga-details-page"),
+);
+
+// About Page
+const About = lazy(() => import("@/app/pages/about-page"));
+
 // Auth Pages
 const Login = lazy(() => import("@/features/auth/pages/login-page"));
 const Register = lazy(() => import("@/features/auth/pages/register-page"));
@@ -38,9 +47,12 @@ export default function App() {
             {/* Rotas Públicas */}
             <Route path="/" element={<Home />} />
             <Route path="/animes" element={<Animes />} />
+            <Route path="/mangas" element={<Mangas />} />
             <Route path="/seasonal" element={<Seasonal />} />
             <Route path="/top" element={<TopAnimes />} />
             <Route path="/anime/:id" element={<AnimeDetails />} />
+            <Route path="/manga/:id" element={<MangaDetails />} />
+            <Route path="/about" element={<About />} />
 
             {/* Rotas de Autenticação */}
             <Route path="/login" element={<Login />} />

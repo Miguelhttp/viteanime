@@ -38,10 +38,10 @@ export default function SeasonalPage() {
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Temporada Atual
             </h1>
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-slate-400">
               {seasonLabel} {now.getFullYear()} · Os animes que estão no ar
               agora
             </p>
@@ -52,17 +52,17 @@ export default function SeasonalPage() {
       {/* Stats */}
       {data?.pagination && (
         <div className="flex flex-wrap gap-4">
-          <div className="rounded-xl bg-zinc-900 px-5 py-3 ring-1 ring-zinc-800">
-            <span className="text-2xl font-black text-zinc-100">
+          <div className="rounded-xl bg-slate-900 px-5 py-3 shadow-sm ring-1 ring-white/10">
+            <span className="text-2xl font-black text-white">
               {data.pagination.items?.total || "—"}
             </span>
-            <span className="ml-2 text-sm text-zinc-400">Títulos</span>
+            <span className="ml-2 text-sm text-slate-400">Títulos</span>
           </div>
-          <div className="rounded-xl bg-zinc-900 px-5 py-3 ring-1 ring-zinc-800">
+          <div className="rounded-xl bg-slate-900 px-5 py-3 shadow-sm ring-1 ring-white/10">
             <span className="text-2xl font-black text-blue-400">
               {totalPages}
             </span>
-            <span className="ml-2 text-sm text-zinc-400">Páginas</span>
+            <span className="ml-2 text-sm text-slate-400">Páginas</span>
           </div>
         </div>
       )}
@@ -78,21 +78,21 @@ export default function SeasonalPage() {
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1 || isLoading}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all hover:bg-zinc-800 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-slate-900 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
 
           <div className="flex items-center gap-2 text-sm font-medium">
-            <span className="text-zinc-100">{page}</span>
-            <span className="text-zinc-500">de</span>
-            <span className="text-zinc-500">{totalPages}</span>
+            <span className="text-white">{page}</span>
+            <span className="text-slate-500">de</span>
+            <span className="text-slate-500">{totalPages}</span>
           </div>
 
           <button
             onClick={() => handlePageChange(page + 1)}
             disabled={!hasNextPage || isLoading}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-zinc-900 text-zinc-400 ring-1 ring-zinc-800 transition-all hover:bg-zinc-800 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-slate-900 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

@@ -1,34 +1,32 @@
+// src/features/mangas/components/manga-card.tsx
 import { useNavigate } from "react-router";
-import type { Anime } from "../types/anime";
-import { Star, PlayCircle } from "lucide-react";
+import type { Manga } from "../types/manga";
+import { Star, BookOpen } from "lucide-react";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
 
-interface AnimeCardProps {
-  anime: Anime;
+interface MangaCardProps {
+  manga: Manga;
 }
 
-export function AnimeCard({ anime }: AnimeCardProps) {
-  // Hook para navegar entre as páginas
+export function MangaCard({ manga }: MangaCardProps) {
   const navigate = useNavigate();
-  // Pega o ano de lançamento do anime
-  const year = anime.aired?.prop?.from?.year || anime.year;
-  // Pega os 2 primeiros gêneros e junta com vírgula
-  const genres = anime.genres
+  const year = manga.published?.prop?.from?.year;
+  const genres = manga.genres
     ?.slice(0, 2)
     .map((g) => g.name)
     .join(", ");
 
   return (
     <div
-      onClick={() => navigate(`/anime/${anime.mal_id}`)}
+      onClick={() => navigate(`/manga/${manga.mal_id}`)}
       className="group relative aspect-2/3 w-full min-w-35 cursor-pointer overflow-hidden rounded-xl bg-slate-900 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] sm:min-w-50"
     >
       {/* Poster */}
       <OptimizedImage
         src={
-          anime.images.webp.image_url || anime.images.jpg.image_url || undefined
+          manga.images.webp.image_url || manga.images.jpg.image_url || undefined
         }
-        alt={anime.title}
+        alt={manga.title}
         className="group-hover:scale-110"
         containerClassName="h-full w-full"
       />
@@ -38,7 +36,7 @@ export function AnimeCard({ anime }: AnimeCardProps) {
         <div className="translate-y-4 transition-all duration-500 ease-out group-hover:translate-y-0">
           <div className="flex items-center gap-2 text-[10px] font-black tracking-widest text-zinc-400 uppercase">
             <span className="rounded-sm bg-white/10 px-1.5 py-0.5 backdrop-blur-md">
-              {anime.type || "TV"}
+              {manga.type || "Manga"}
             </span>
             {year && (
               <>
@@ -49,7 +47,7 @@ export function AnimeCard({ anime }: AnimeCardProps) {
           </div>
 
           <h3 className="group-hover:text-primary mt-1 line-clamp-1 text-sm leading-tight font-black text-white transition-colors sm:mt-2 sm:text-base">
-            {anime.title}
+            {manga.title}
           </h3>
 
           <div className="mt-2 hidden space-y-2 transition-all delay-100 duration-500 group-hover:block">
@@ -59,7 +57,7 @@ export function AnimeCard({ anime }: AnimeCardProps) {
               </p>
             )}
             <p className="line-clamp-2 text-[10px] leading-relaxed text-zinc-300 sm:line-clamp-3">
-              {anime.synopsis || "Sem sinopse disponível."}
+              {manga.synopsis || "Sem sinopse disponível."}
             </p>
           </div>
 
@@ -67,12 +65,12 @@ export function AnimeCard({ anime }: AnimeCardProps) {
             <div className="flex items-center gap-1.5 rounded-lg bg-yellow-500/10 px-2 py-1 text-yellow-500 ring-1 ring-yellow-500/20 backdrop-blur-md">
               <Star className="h-3 w-3 fill-current sm:h-3.5 sm:w-3.5" />
               <span className="text-[10px] font-black sm:text-xs">
-                {anime.score?.toFixed(1) || "N/A"}
+                {manga.score?.toFixed(1) || "N/A"}
               </span>
             </div>
 
             <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all hover:scale-110 active:scale-95 sm:h-10 sm:w-10">
-              <PlayCircle className="h-4 w-4 fill-current sm:h-6 sm:w-6" />
+              <BookOpen className="h-4 w-4 fill-current sm:h-5 sm:w-5" />
             </button>
           </div>
         </div>

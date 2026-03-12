@@ -13,6 +13,8 @@ import {
   Sparkles,
   Trophy,
   Bookmark,
+  BookOpen,
+  Info,
 } from "lucide-react";
 
 interface NavItem {
@@ -25,9 +27,11 @@ interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", path: "/", icon: Home },
   { label: "Animes", path: "/animes", icon: Compass },
+  { label: "Mangás", path: "/mangas", icon: BookOpen },
   { label: "Temporada", path: "/seasonal", icon: Sparkles },
   { label: "Top Animes", path: "/top", icon: Trophy },
   { label: "Minha Lista", path: "/watchlist", icon: Bookmark },
+  { label: "Sobre", path: "/about", icon: Info },
 ];
 
 export const USER_MENU_ITEMS = [

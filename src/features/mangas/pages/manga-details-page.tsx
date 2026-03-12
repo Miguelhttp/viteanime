@@ -1,46 +1,37 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useAnimeDetails } from "../hooks/use-anime-details";
-import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
-import { useUserLists, type ListType } from "@/shared/hooks/use-user-lists";
-import { useAuth } from "@/shared/contexts/auth-context";
-import { AnimeRow } from "../components/anime-row";
-import { AnimeDetailsSkeleton } from "../components/skeletons";
+import { useMangaDetails } from "../hooks/use-manga-details";
+import { useMangaRecommendations } from "../hooks/use-manga-recommendations";
+import { MangaRow } from "../components/manga-row";
+import { MangaDetailsSkeleton } from "../components/manga-skeletons";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
-import {
-  Star,
-  Play,
-  ChevronLeft,
-  Info,
-  Bookmark,
-  Heart,
-  CheckCircle2,
-} from "lucide-react";
+import { Star, BookOpen, ChevronLeft, Info } from "lucide-react";
 
-import type { AnimeGenre, AnimeStudio, Anime } from "../types/anime";
+import type { Manga } from "../types/manga";
+import type { AnimeGenre } from "../../animes/types/anime";
 
-export default function AnimeDetailsPage() {
+export default function MangaDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: response, isLoading, error } = useAnimeDetails(Number(id));
+  const { data: response, isLoading, error } = useMangaDetails(Number(id));
   const { data: recommendationsData, isLoading: isRecommendationsLoading } =
-    useAnimeRecommendations(Number(id));
+    useMangaRecommendations(Number(id));
 
-  useDocumentTitle(response?.data?.title || "Detalhes do Anime");
+  useDocumentTitle(response?.data?.title || "Detalhes do Mangá");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
   if (isLoading) {
-    return <AnimeDetailsSkeleton />;
+    return <MangaDetailsSkeleton />;
   }
 
   if (error || !response?.data) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-950">
-        <h1 className="text-2xl font-bold text-white">Anime não encontrado</h1>
+        <h1 className="text-2xl font-bold text-white">Mangá não encontrado</h1>
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white"
@@ -52,11 +43,10 @@ export default function AnimeDetailsPage() {
     );
   }
 
-  const anime = response.data;
-  const year = anime.aired?.prop?.from?.year || anime.year;
+  const manga = response.data;
+  const year = manga.published?.prop?.from?.year;
 
-  // Mapeia as recomendações para o formato do AnimeCard
-  const recommendedAnimes: Anime[] = Array.from(
+  const recommendedMangas: Manga[] = Array.from(
     new Map(
       (recommendationsData?.data || []).map((rec: any) => [
         rec.entry.mal_id,
@@ -65,11 +55,11 @@ export default function AnimeDetailsPage() {
           score: null,
           synopsis: "",
           genres: [],
-          type: "Anime",
+          type: "Manga",
         },
       ]),
     ).values(),
-  ) as Anime[];
+  ) as Manga[];
 
   return (
     <div className="min-h-screen bg-slate-950 pb-20">
@@ -77,10 +67,11 @@ export default function AnimeDetailsPage() {
       <div className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh]">
         <OptimizedImage
           src={
-            anime.images.webp.large_image_url ||
-            anime.images.jpg.large_image_url
+            (manga.images.webp.large_image_url ||
+              manga.images.jpg.large_image_url ||
+              undefined) as string | undefined
           }
-          alt={anime.title}
+          alt={manga.title}
           containerClassName="h-full w-full"
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent" />
@@ -98,12 +89,12 @@ export default function AnimeDetailsPage() {
             <div className="max-w-3xl space-y-4">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-md bg-blue-600 px-2.5 py-1 text-[10px] font-black tracking-widest text-white uppercase sm:text-xs">
-                  {anime.type}
+                  {manga.type}
                 </span>
                 <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 text-yellow-500 backdrop-blur-md">
                   <Star className="h-3.5 w-3.5 fill-current" />
                   <span className="text-xs font-black">
-                    {anime.score || "N/A"}
+                    {manga.score || "N/A"}
                   </span>
                 </div>
                 {year && (
@@ -111,35 +102,26 @@ export default function AnimeDetailsPage() {
                     {year}
                   </span>
                 )}
-                {anime.status === "Currently Airing" && (
+                {manga.publishing && (
                   <span className="rounded-md bg-green-500/20 px-2.5 py-1 text-[10px] font-black text-green-400 uppercase">
-                    Em Lançamento
+                    Em Publicação
                   </span>
                 )}
               </div>
 
               <h1 className="text-3xl font-black text-white sm:text-5xl lg:text-6xl">
-                {anime.title}
+                {manga.title}
               </h1>
 
               <p className="line-clamp-3 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
-                {anime.synopsis}
+                {manga.synopsis}
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <button className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-black text-slate-950 transition-all hover:scale-105 active:scale-95 sm:px-10">
-                  <Play className="h-5 w-5 fill-current" />
-                  ASSISTIR AGORA
+                  <BookOpen className="h-5 w-5" />
+                  LER AGORA
                 </button>
-                <button className="flex items-center gap-3 rounded-xl bg-slate-900 px-8 py-4 font-black text-white ring-1 ring-white/10 transition-all hover:bg-slate-800 sm:px-10">
-                  <Play className="h-5 w-5" />
-                  TRAILER
-                </button>
-              </div>
-
-              {/* Painel de Coleção de Listas do Usuário */}
-              <div className="mt-6 w-full max-w-sm border-t border-white/5 pt-6">
-                <UserListActions anime={anime} />
               </div>
             </div>
           </div>
@@ -158,63 +140,42 @@ export default function AnimeDetailsPage() {
               <h2 className="text-xl font-bold">Sinopse</h2>
             </div>
             <p className="text-lg leading-relaxed text-slate-400">
-              {anime.synopsis}
+              {manga.synopsis || "Sem sinopse disponível."}
             </p>
           </section>
-
-          {anime.trailer?.youtube_id && (
-            <section className="space-y-4">
-              <h2 className="text-xl font-bold text-white">Trailer Oficial</h2>
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
-                <iframe
-                  src={`https://www.youtube.com/embed/${anime.trailer.youtube_id}`}
-                  title="Anime Trailer"
-                  className="absolute inset-0 h-full w-full border-0"
-                  allowFullScreen
-                />
-              </div>
-            </section>
-          )}
         </div>
 
         {/* Right Column - Tech Specs */}
-        <div className="space-y-8 rounded-2xl bg-slate-900/50 p-8 ring-1 ring-white/5">
+        <div className="space-y-8 rounded-2xl bg-white/5 p-8 ring-1 ring-white/10">
           <h2 className="text-xl font-bold text-white">Informações Técnicas</h2>
 
           <div className="space-y-6">
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Episódios</span>
+              <span className="text-slate-400">Capítulos</span>
               <span className="font-bold text-white">
-                {anime.episodes || "?"}
+                {manga.chapters || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Duração</span>
+              <span className="text-slate-400">Volumes</span>
               <span className="font-bold text-white">
-                {anime.duration || "?"}
+                {manga.volumes || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
               <span className="text-slate-400">Status</span>
-              <span className="font-bold text-white">{anime.status}</span>
+              <span className="font-bold text-white">{manga.status}</span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Estúdio</span>
+              <span className="text-slate-400">Autores</span>
               <span className="font-bold text-blue-400">
-                {anime.studios?.map((s: AnimeStudio) => s.name).join(", ") ||
-                  "Desconhecido"}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Classificação</span>
-              <span className="font-bold text-white">
-                {anime.rating || "Livre"}
+                {manga.authors?.map((a) => a.name).join(", ") || "Desconhecido"}
               </span>
             </div>
             <div className="space-y-2">
               <span className="text-slate-400">Gêneros</span>
               <div className="flex flex-wrap gap-2 pt-2">
-                {anime.genres?.map((g: AnimeGenre) => (
+                {manga.genres?.map((g: AnimeGenre) => (
                   <span
                     key={g.mal_id}
                     className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300"
@@ -231,89 +192,12 @@ export default function AnimeDetailsPage() {
       {/* Suggestions Section */}
       <div className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
         <div className="border-t border-white/5 pt-12">
-          <AnimeRow
+          <MangaRow
             title="Sugestões para Você"
-            animes={recommendedAnimes}
+            mangas={recommendedMangas}
             isLoading={isRecommendationsLoading}
           />
         </div>
-      </div>
-    </div>
-  );
-}
-
-function UserListActions({ anime }: { anime: any }) {
-  const { getItemListType, addToList, removeFromList } = useUserLists();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const currentListType = getItemListType(anime.mal_id);
-
-  const handleToggle = (type: ListType) => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    if (currentListType === type) {
-      removeFromList(anime.mal_id); // Remove se clicar no mesmo stat
-    } else {
-      addToList(anime, type);
-    }
-  };
-
-  const actions: {
-    id: ListType;
-    label: string;
-    icon: any;
-    color: string;
-    bg: string;
-  }[] = [
-    {
-      id: "favorite",
-      label: "Favorito",
-      icon: Heart,
-      color: "text-red-500",
-      bg: "bg-red-500/10 ring-red-500/30",
-    },
-    {
-      id: "watchlist",
-      label: "Assistir",
-      icon: Bookmark,
-      color: "text-blue-500",
-      bg: "bg-blue-500/10 ring-blue-500/30",
-    },
-    {
-      id: "completed",
-      label: "Completo",
-      icon: CheckCircle2,
-      color: "text-green-500",
-      bg: "bg-green-500/10 ring-green-500/30",
-    },
-  ];
-
-  return (
-    <div className="flex flex-col gap-2">
-      <p className="pl-1 text-xs font-medium tracking-widest text-zinc-500 uppercase">
-        Minha Biblioteca
-      </p>
-      <div className="flex flex-wrap gap-2">
-        {actions.map(({ id, label, icon: Icon, color, bg }) => {
-          const isActive = currentListType === id;
-          return (
-            <button
-              key={id}
-              onClick={() => handleToggle(id)}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-bold transition-all sm:text-sm ${
-                isActive
-                  ? `${bg} ${color} ring-1`
-                  : "bg-slate-900 text-slate-400 ring-1 ring-white/10 hover:bg-slate-800 hover:text-white"
-              }`}
-            >
-              <Icon className={`h-4 w-4 ${isActive ? "fill-current" : ""}`} />
-              {label}
-            </button>
-          );
-        })}
       </div>
     </div>
   );

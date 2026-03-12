@@ -1,24 +1,25 @@
+// src/features/mangas/components/manga-row.tsx
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router";
-import type { Anime } from "../types/anime";
-import { AnimeCard } from "./anime-card";
-import { AnimeCardSkeleton } from "./skeletons";
+import type { Manga } from "../types/manga";
+import { MangaCard } from "./manga-card";
+import { MangaCardSkeleton } from "./manga-skeletons";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
-interface AnimeRowProps {
+interface MangaRowProps {
   title: string;
-  animes: Anime[];
+  mangas: Manga[];
   isLoading?: boolean;
   viewAllHref?: string;
 }
 
-export function AnimeRow({
+export function MangaRow({
   title,
-  animes,
+  mangas,
   isLoading,
   viewAllHref,
-}: AnimeRowProps) {
+}: MangaRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -45,7 +46,7 @@ export function AnimeRow({
 
   useEffect(() => {
     handleScroll();
-  }, [animes]);
+  }, [mangas]);
 
   if (isLoading) {
     return (
@@ -57,7 +58,7 @@ export function AnimeRow({
         <div className="flex gap-3 overflow-hidden sm:gap-6">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="w-[140px] shrink-0 sm:w-[200px]">
-              <AnimeCardSkeleton />
+              <MangaCardSkeleton />
             </div>
           ))}
         </div>
@@ -65,7 +66,7 @@ export function AnimeRow({
     );
   }
 
-  if (!animes || animes.length === 0) return null;
+  if (!mangas || mangas.length === 0) return null;
 
   return (
     <section className="group/row relative w-full space-y-4 overflow-hidden sm:space-y-6">
@@ -73,7 +74,7 @@ export function AnimeRow({
         <h2 className="text-lg font-black tracking-tight text-white sm:text-2xl">
           {title}{" "}
           <span className="ml-2 text-[10px] font-medium text-slate-500 sm:text-xs">
-            ({animes.length})
+            ({mangas.length})
           </span>
         </h2>
         {viewAllHref ? (
@@ -93,7 +94,6 @@ export function AnimeRow({
       </div>
 
       <div className="relative">
-        {/* Left Arrow */}
         {showLeftArrow && (
           <button
             onClick={() => scroll("left")}
@@ -103,7 +103,6 @@ export function AnimeRow({
           </button>
         )}
 
-        {/* Right Arrow */}
         {showRightArrow && (
           <button
             onClick={() => scroll("right")}
@@ -118,17 +117,16 @@ export function AnimeRow({
           onScroll={handleScroll}
           className="scrollbar-hide flex gap-3 overflow-x-auto scroll-smooth pb-4 transition-all sm:gap-6"
         >
-          {Array.from(new Map(animes.map((a) => [a.mal_id, a])).values()).map(
-            (anime) => (
+          {Array.from(new Map(mangas.map((m) => [m.mal_id, m])).values()).map(
+            (manga) => (
               <div
-                key={anime.mal_id}
+                key={manga.mal_id}
                 className="w-[140px] shrink-0 sm:w-[200px]"
               >
-                <AnimeCard anime={anime} />
+                <MangaCard manga={manga} />
               </div>
             ),
           )}
-          {/* Spacing for end of scroll */}
           <div className="w-4 shrink-0 sm:w-8" />
         </div>
       </div>

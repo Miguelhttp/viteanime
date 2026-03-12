@@ -13,7 +13,7 @@ export default function MainLayout() {
   const outlet = useOutlet();
 
   return (
-    <div className="relative flex min-h-screen w-full overflow-x-hidden bg-zinc-950 text-zinc-50">
+    <div className="relative flex min-h-screen w-full overflow-x-hidden bg-(--background) text-(--foreground) transition-colors duration-300">
       <Sidebar />
 
       {/* Main Content Area */}

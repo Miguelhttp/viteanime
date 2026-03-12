@@ -26,9 +26,13 @@ export function AnimeGrid({ animes, isLoading }: AnimeGridProps) {
     );
   }
 
+  const uniqueAnimes = Array.from(
+    new Map(animes.map((a) => [a.mal_id, a])).values(),
+  );
+
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {animes.map((anime) => (
+      {uniqueAnimes.map((anime) => (
         <AnimeCard key={anime.mal_id} anime={anime} />
       ))}
     </div>

@@ -9,17 +9,17 @@ export default function NotFoundPage() {
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-4 text-center">
       <div className="relative mb-8">
         <Ghost
-          className="h-32 w-32 animate-bounce text-zinc-800"
+          className="h-32 w-32 animate-bounce text-zinc-300 dark:text-zinc-800"
           strokeWidth={1}
         />
-        <div className="absolute -bottom-4 left-1/2 h-4 w-24 -translate-x-1/2 rounded-[100%] bg-black/20 blur-md" />
+        <div className="absolute -bottom-4 left-1/2 h-4 w-24 -translate-x-1/2 rounded-[100%] bg-black/5 blur-md dark:bg-black/20" />
       </div>
 
-      <h1 className="mb-4 text-4xl font-black tracking-tight text-balance text-white sm:text-6xl">
+      <h1 className="mb-4 text-4xl font-black tracking-tight text-balance text-zinc-900 sm:text-6xl dark:text-white">
         Ops! Perdeu o<br className="hidden sm:block" /> caminho ninja?
       </h1>
 
-      <p className="mb-8 max-w-md text-lg text-zinc-400">
+      <p className="mb-8 max-w-md text-lg text-zinc-600 dark:text-zinc-400">
         A página que você está procurando não existe ou foi movida para outra
         dimensão.
       </p>
@@ -27,7 +27,7 @@ export default function NotFoundPage() {
       <div className="flex flex-col gap-4 sm:flex-row">
         <button
           onClick={() => window.history.back()}
-          className="flex items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 font-medium text-white ring-1 ring-white/10 transition-colors hover:bg-zinc-800 hover:ring-white/20"
+          className="flex items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-3 font-medium text-zinc-950 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-200 hover:ring-zinc-300 dark:bg-zinc-900 dark:text-white dark:ring-white/10 dark:hover:bg-zinc-800 dark:hover:ring-white/20"
         >
           <ArrowLeft className="h-5 w-5" />
           Voltar
