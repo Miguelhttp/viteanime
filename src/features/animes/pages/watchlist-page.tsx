@@ -11,7 +11,12 @@ export default function WatchlistPage() {
 
   const currentList = getListByType(activeTab);
 
-  const TABS: { id: ListType; label: string; icon: any; count: number }[] = [
+  const TABS: {
+    id: ListType;
+    label: string;
+    icon: typeof Bookmark;
+    count: number;
+  }[] = [
     {
       id: "watchlist",
       label: "Quero Assistir",
@@ -39,7 +44,7 @@ export default function WatchlistPage() {
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Minha Biblioteca
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-zinc-400">
               {stats.total > 0
                 ? `${stats.total} animes salvos no total`
                 : "Seu acervo pessoal de animes"}
@@ -49,7 +54,7 @@ export default function WatchlistPage() {
 
         {/* Tabs System */}
         <div className="scrollbar-hide flex overflow-x-auto pb-2">
-          <div className="flex gap-2 rounded-2xl bg-slate-900/50 p-1.5 ring-1 ring-white/5">
+          <div className="flex gap-2 rounded-2xl bg-zinc-900/50 p-1.5 ring-1 ring-white/5">
             {TABS.map((tab) => {
               const isActive = activeTab === tab.id;
               const Icon = tab.icon;
@@ -59,8 +64,8 @@ export default function WatchlistPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? "bg-slate-800 text-white shadow-md ring-1 ring-white/10"
-                      : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
+                      ? "bg-zinc-800 text-white shadow-md ring-1 ring-white/10"
+                      : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
                   }`}
                 >
                   <Icon
@@ -71,7 +76,7 @@ export default function WatchlistPage() {
                     className={`ml-1.5 rounded-full px-2 py-0.5 text-xs ${
                       isActive
                         ? "bg-white/10 text-white"
-                        : "bg-slate-800 text-slate-500"
+                        : "bg-zinc-800 text-zinc-500"
                     }`}
                   >
                     {tab.count}
@@ -86,8 +91,8 @@ export default function WatchlistPage() {
       {/* Content */}
       {currentList.length === 0 ? (
         <div className="animate-in fade-in flex flex-col items-center justify-center gap-4 py-32 duration-500">
-          <Library className="h-16 w-16 text-slate-800" />
-          <h2 className="text-xl font-bold text-slate-500">
+          <Library className="h-16 w-16 text-zinc-800" />
+          <h2 className="text-xl font-bold text-zinc-500">
             Esta lista está vazia
           </h2>
           <p className="max-w-md text-center text-sm text-zinc-500">

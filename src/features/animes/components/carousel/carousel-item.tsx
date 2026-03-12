@@ -30,8 +30,8 @@ export const CarouselItem = ({
       />
     </picture>
 
-    <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
-    <div className="absolute inset-0 hidden bg-linear-to-r from-slate-950/80 via-transparent to-transparent lg:block" />
+    <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
+    <div className="absolute inset-0 hidden bg-linear-to-r from-zinc-950/80 via-transparent to-transparent lg:block" />
 
     <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-12 lg:p-20">
       <div
@@ -47,7 +47,7 @@ export const CarouselItem = ({
             className={`rounded-full px-3 py-1 text-sm font-bold backdrop-blur-md ${
               anime.airing
                 ? "bg-green-500/20 text-green-500"
-                : "bg-slate-500/20 text-slate-300"
+                : "bg-zinc-500/20 text-zinc-300"
             }`}
           >
             {anime.airing ? "Em Exibição" : "Finalizado"}
@@ -64,7 +64,7 @@ export const CarouselItem = ({
         </h2>
 
         {anime.synopsis && (
-          <p className="animate-text line-clamp-2 max-w-2xl text-sm text-slate-300 sm:line-clamp-3 sm:text-lg">
+          <p className="animate-text line-clamp-2 max-w-2xl text-sm text-zinc-300 sm:line-clamp-3 sm:text-lg">
             {anime.synopsis}
           </p>
         )}
@@ -72,7 +72,7 @@ export const CarouselItem = ({
         <div className="animate-text pt-2 sm:pt-4">
           <Link
             to={`/anime/${anime.mal_id}`}
-            className="inline-block rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:bg-slate-100 active:scale-95 sm:px-8 sm:py-3 sm:text-base"
+            className="inline-block rounded-full bg-white px-6 py-2.5 text-sm font-bold text-zinc-950 transition-all hover:scale-105 hover:bg-zinc-100 active:scale-95 sm:px-8 sm:py-3 sm:text-base"
           >
             Ver Detalhes
           </Link>

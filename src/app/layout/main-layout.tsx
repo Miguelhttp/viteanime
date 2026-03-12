@@ -4,7 +4,7 @@ import { Sidebar } from "@/shared/components/navigation/sidebar";
 import { Topbar } from "@/shared/components/navigation/topbar";
 import { Footer } from "@/shared/components/navigation/footer";
 import { FeedbackWidget } from "@/shared/components/ui/feedback-widget";
-import { useNavigation } from "@/shared/hooks/use-navigation";
+import { useNavigation } from "@/shared/hooks/use-navigation-context";
 import { PageTransition } from "@/shared/components/ui/page-transition";
 
 export default function MainLayout() {

@@ -1,5 +1,11 @@
 // src/features/mangas/types/manga.ts
-import type { JikanPagination, AnimeImages, AnimeGenre, AnimeTheme, AnimeDemographic } from "../../animes/types/anime";
+import type {
+  JikanPagination,
+  AnimeImages,
+  AnimeGenre,
+  AnimeTheme,
+  AnimeDemographic,
+} from "../../animes/types/anime";
 
 /**
  * Interface para a resposta da API Jikan para Mangás
@@ -11,6 +17,17 @@ export interface JikanMangaResponse<T = Manga> {
 
 export interface JikanMangaDetailResponse<T = Manga> {
   data: T;
+}
+
+export interface MangaRecommendation {
+  entry: {
+    mal_id: number;
+    url: string;
+    images: AnimeImages;
+    title: string;
+  };
+  url: string;
+  votes: number;
 }
 
 export interface MangaAuthor {
@@ -40,10 +57,24 @@ export interface Manga {
   title_english: string | null;
   title_japanese: string | null;
   title_synonyms: string[];
-  type: "Manga" | "Novel" | "Light Novel" | "One-shot" | "Doujinshi" | "Manhwa" | "Manhua" | null;
+  type:
+    | "Manga"
+    | "Novel"
+    | "Light Novel"
+    | "One-shot"
+    | "Doujinshi"
+    | "Manhwa"
+    | "Manhua"
+    | null;
   chapters: number | null;
   volumes: number | null;
-  status: "Finished" | "Publishing" | "On Hiatus" | "Discontinued" | "Not yet published" | null;
+  status:
+    | "Finished"
+    | "Publishing"
+    | "On Hiatus"
+    | "Discontinued"
+    | "Not yet published"
+    | null;
   publishing: boolean;
   published: {
     from: string | null;

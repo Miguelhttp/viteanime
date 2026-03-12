@@ -32,7 +32,7 @@ export default function Carousel({ animes, isLoading, error }: CarouselProps) {
 
   return (
     <section
-      className="group relative w-full overflow-hidden rounded-2xl bg-slate-950 shadow-2xl"
+      className="group relative w-full overflow-hidden rounded-2xl bg-zinc-950 shadow-2xl"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

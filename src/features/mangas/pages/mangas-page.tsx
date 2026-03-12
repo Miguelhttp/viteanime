@@ -12,6 +12,7 @@ import {
   ChevronDown,
   Tag,
 } from "lucide-react";
+import type { AnimeGenre } from "@/features/animes/types/anime";
 
 const CATEGORIES = [
   { id: "all", label: "Qualquer Formato", value: undefined },
@@ -43,8 +44,18 @@ export default function MangasPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const page = parseInt(searchParams.get("page") || "1");
-  const type = (searchParams.get("type") as any) || undefined;
-  const status = (searchParams.get("status") as any) || undefined;
+  const type =
+    (searchParams.get("type") as
+      | "manga"
+      | "novel"
+      | "lightnovel"
+      | "oneshot"
+      | "doujin"
+      | "manhwa"
+      | "manhua") || undefined;
+  const status =
+    (searchParams.get("status") as "publishing" | "complete" | "upcoming") ||
+    undefined;
   const orderStr = searchParams.get("sort") || "";
   const genreId = searchParams.get("genre") || "";
 
@@ -155,7 +166,7 @@ export default function MangasPage() {
           <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Explorar Mangás
           </h1>
-          <p className="text-slate-400">Encontre suas obras favoritas.</p>
+          <p className="text-zinc-400">Encontre suas obras favoritas.</p>
         </div>
 
         <div className="flex w-full max-w-xl flex-col gap-4 sm:flex-row sm:items-center">
@@ -165,18 +176,18 @@ export default function MangasPage() {
           >
             <button
               onClick={() => setIsGenreOpen((prev) => !prev)}
-              className={`flex w-full items-center gap-2 rounded-xl bg-slate-900 py-3.5 pr-4 pl-4 text-left text-sm ring-1 ring-white/10 transition-all ${
+              className={`flex w-full items-center gap-2 rounded-xl bg-zinc-900 py-3.5 pr-4 pl-4 text-left text-sm ring-1 ring-white/10 transition-all ${
                 isGenreOpen
-                  ? "bg-slate-800 text-white ring-white/20"
+                  ? "bg-zinc-800 text-white ring-white/20"
                   : genreId
                     ? "text-white ring-blue-500/30"
-                    : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                    : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
               }`}
             >
-              <Tag className="h-4 w-4 shrink-0 text-slate-400" />
+              <Tag className="h-4 w-4 shrink-0 text-zinc-400" />
               <span className="flex-1 truncate">
                 {genreId
-                  ? genres.find((g: any) => String(g.mal_id) === genreId)
+                  ? genres.find((g: AnimeGenre) => String(g.mal_id) === genreId)
                       ?.name || "Gênero"
                   : "Todos os Gêneros"}
               </span>
@@ -192,24 +203,24 @@ export default function MangasPage() {
                 </button>
               )}
               <ChevronDown
-                className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${
+                className={`h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 ${
                   isGenreOpen ? "rotate-180" : ""
                 }`}
               />
             </button>
 
             {isGenreOpen && (
-              <div className="absolute top-full left-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl shadow-black/50">
+              <div className="absolute top-full left-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl shadow-black/50">
                 <div className="border-b border-white/5 p-3">
                   <div className="relative">
-                    <Search className="absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                    <Search className="absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" />
                     <input
                       type="text"
                       autoFocus
                       value={genreFilter}
                       onChange={(e) => setGenreFilter(e.target.value)}
                       placeholder="Filtrar gêneros..."
-                      className="w-full rounded-lg bg-slate-800/80 py-2 pr-3 pl-9 text-xs text-white placeholder-slate-500 ring-1 ring-white/5 focus:ring-white/20 focus:outline-none"
+                      className="w-full rounded-lg bg-zinc-800/80 py-2 pr-3 pl-9 text-xs text-white placeholder-zinc-500 ring-1 ring-white/5 focus:ring-white/20 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -221,24 +232,24 @@ export default function MangasPage() {
                       className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium transition-colors ${
                         !genreId
                           ? "bg-blue-500/10 text-blue-400"
-                          : "text-slate-300 hover:bg-white/5"
+                          : "text-zinc-300 hover:bg-white/5"
                       }`}
                     >
                       Todos os Gêneros
                     </button>
                   </li>
                   {genres
-                    .filter((g: any) =>
+                    .filter((g: AnimeGenre) =>
                       g.name.toLowerCase().includes(genreFilter.toLowerCase()),
                     )
-                    .map((g: any) => (
+                    .map((g: AnimeGenre) => (
                       <li key={g.mal_id}>
                         <button
                           onClick={() => handleGenreChange(String(g.mal_id))}
                           className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium transition-colors ${
                             String(g.mal_id) === genreId
                               ? "bg-blue-500/10 text-blue-400"
-                              : "text-slate-300 hover:bg-white/5"
+                              : "text-zinc-300 hover:bg-white/5"
                           }`}
                         >
                           {g.name}
@@ -256,9 +267,9 @@ export default function MangasPage() {
               placeholder="Buscar mangá..."
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
-              className="w-full rounded-xl border-none bg-slate-900 px-12 py-3.5 text-sm text-slate-100 ring-1 ring-slate-800 transition-all placeholder:text-slate-500 focus:bg-slate-800/50 focus:ring-2 focus:ring-blue-500/20"
+              className="w-full rounded-xl border-none bg-zinc-900 px-12 py-3.5 text-sm text-zinc-100 ring-1 ring-zinc-800 transition-all placeholder:text-zinc-500 focus:bg-zinc-800/50 focus:ring-2 focus:ring-blue-500/20"
             />
-            <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-slate-400" />
+            <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-zinc-400" />
             {localSearch && (
               <button
                 onClick={() => setLocalSearch("")}
@@ -277,7 +288,7 @@ export default function MangasPage() {
             <select
               value={type || ""}
               onChange={(e) => handleTypeChange(e.target.value)}
-              className="appearance-none rounded-xl border-none bg-slate-900 py-2.5 pr-10 pl-4 text-xs font-bold text-slate-300 ring-1 ring-slate-800 transition-all hover:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-xs font-bold text-zinc-300 ring-1 ring-zinc-800 transition-all hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.id} value={cat.value || ""}>
@@ -292,7 +303,7 @@ export default function MangasPage() {
             <select
               value={status || ""}
               onChange={(e) => handleStatusChange(e.target.value)}
-              className="appearance-none rounded-xl border-none bg-slate-900 py-2.5 pr-10 pl-4 text-xs font-bold text-slate-300 ring-1 ring-slate-800 transition-all hover:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-xs font-bold text-zinc-300 ring-1 ring-zinc-800 transition-all hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
             >
               {STATUSES.map((stat) => (
                 <option key={stat.id} value={stat.value || ""}>
@@ -307,7 +318,7 @@ export default function MangasPage() {
             <select
               value={orderStr || "members-desc"}
               onChange={(e) => handleOrderChange(e.target.value)}
-              className="appearance-none rounded-xl border-none bg-slate-900 py-2.5 pr-10 pl-4 text-xs font-bold text-slate-300 ring-1 ring-slate-800 transition-all hover:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+              className="appearance-none rounded-xl border-none bg-zinc-900 py-2.5 pr-10 pl-4 text-xs font-bold text-zinc-300 ring-1 ring-zinc-800 transition-all hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
             >
               {ORDERS.map((ord) => (
                 <option key={ord.id} value={ord.value}>

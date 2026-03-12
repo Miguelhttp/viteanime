@@ -19,7 +19,7 @@ export function MangaCard({ manga }: MangaCardProps) {
   return (
     <div
       onClick={() => navigate(`/manga/${manga.mal_id}`)}
-      className="group relative aspect-2/3 w-full min-w-35 cursor-pointer overflow-hidden rounded-xl bg-slate-900 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] sm:min-w-50"
+      className="group relative aspect-2/3 w-full min-w-35 cursor-pointer overflow-hidden rounded-xl bg-zinc-900 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] sm:min-w-50"
     >
       {/* Poster */}
       <OptimizedImage

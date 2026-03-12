@@ -2,12 +2,12 @@
 
 @layer base {
   :root {
-    --background: #020617; /* Slate 950 */
-    --foreground: #f8fafc; /* Slate 50 */
-    --card: #0f172a; /* Slate 900 */
-    --card-foreground: #f8fafc;
-    --border: #1e293b; /* Slate 800 */
-    --accent: #1e293b;
+    --background: #050505; /* Deep neutral black */
+    --foreground: #f5f5f5; /* Neutral white */
+    --card: #0a0a0a; /* Slightly lighter than background */
+    --card-foreground: #f5f5f5;
+    --border: #171717; /* Subtle boundary */
+    --accent: #262626;
     color-scheme: dark;
   }
 

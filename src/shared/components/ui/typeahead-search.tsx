@@ -28,9 +28,15 @@ export function TypeaheadSearch({
 
   // Abre dropdown quando tem resultados
   useEffect(() => {
-    setIsOpen(hasQuery && (results.length > 0 || isSearching));
-    setActiveIndex(-1);
-  }, [results, hasQuery, isSearching]);
+    const shouldBeOpen = hasQuery && (results.length > 0 || isSearching);
+    const timer = setTimeout(() => {
+      if (shouldBeOpen !== isOpen) {
+        setIsOpen(shouldBeOpen);
+      }
+      setActiveIndex(-1);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [results, hasQuery, isSearching, isOpen]);
 
   // Fecha ao clicar fora
   useEffect(() => {

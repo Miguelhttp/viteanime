@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useNavigation } from "@/shared/hooks/use-navigation";
+import { useNavigation } from "@/shared/hooks/use-navigation-context";
 
 export function Sidebar() {
   const { pathname } = useLocation();
@@ -23,14 +23,14 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed top-0 left-0 z-50 flex h-full flex-col border-r border-white/5 bg-slate-950/80 text-slate-50 backdrop-blur-2xl transition-all duration-500 ease-in-out ${isSidebarOpen ? "w-72 translate-x-0" : "-translate-x-full lg:translate-x-0"} ${isSidebarCollapsed ? "lg:w-20" : "lg:w-64"} `}
+        className={`fixed top-0 left-0 z-50 flex h-full flex-col border-r border-white/5 bg-zinc-950/80 text-zinc-50 backdrop-blur-2xl transition-all duration-500 ease-in-out ${isSidebarOpen ? "w-72 translate-x-0" : "-translate-x-full lg:translate-x-0"} ${isSidebarCollapsed ? "lg:w-20" : "lg:w-64"} `}
       >
         <div className="flex h-20 items-center justify-between px-6">
           {(!isSidebarCollapsed || isSidebarOpen) && (
             <Link
               to="/"
               onClick={closeSidebarMobile}
-              className="bg-linear-to-r from-white to-slate-400 bg-clip-text text-2xl font-black tracking-tighter text-transparent"
+              className="bg-linear-to-r from-white to-zinc-400 bg-clip-text text-2xl font-black tracking-tighter text-transparent"
             >
               VITEANIME
             </Link>
@@ -57,8 +57,8 @@ export function Sidebar() {
                 }
                 className={`group relative flex items-center gap-4 rounded-xl px-3 py-3 text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-white text-slate-950 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                    : "text-slate-400 hover:bg-slate-900/50 hover:text-white"
+                    ? "bg-white text-zinc-950 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                    : "text-zinc-400 hover:bg-zinc-900/50 hover:text-white"
                 }`}
               >
                 <div className="flex min-w-[24px] items-center justify-center">
@@ -84,7 +84,7 @@ export function Sidebar() {
         {/* Collapse Toggle (Desktop only) */}
         <button
           onClick={toggleSidebar}
-          className="absolute top-24 -right-3 hidden h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-slate-900 text-slate-400 shadow-lg transition-transform hover:scale-110 hover:text-white lg:flex"
+          className="absolute top-24 -right-3 hidden h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-zinc-900 text-zinc-400 shadow-lg transition-transform hover:scale-110 hover:text-white lg:flex"
         >
           {isSidebarCollapsed ? (
             <ChevronRight className="h-4 w-4" />

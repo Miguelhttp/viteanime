@@ -8,13 +8,12 @@ export function useTypeaheadSearch(minChars = 3, debounceMs = 300) {
 
   // Debounce: só atualiza a query real após o delay
   useEffect(() => {
-    if (inputValue.length < minChars) {
-      setDebouncedQuery("");
-      return;
-    }
-
     const timer = setTimeout(() => {
-      setDebouncedQuery(inputValue);
+      if (inputValue.length < minChars) {
+        setDebouncedQuery("");
+      } else {
+        setDebouncedQuery(inputValue);
+      }
     }, debounceMs);
 
     return () => clearTimeout(timer);

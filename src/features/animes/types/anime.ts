@@ -30,6 +30,17 @@ export interface JikanDetailResponse<T = Anime> {
   data: T;
 }
 
+export interface AnimeRecommendation {
+  entry: {
+    mal_id: number;
+    url: string;
+    images: AnimeImages;
+    title: string;
+  };
+  url: string;
+  votes: number;
+}
+
 // ============================================================================
 // TIPOS DE IMAGENS
 // ============================================================================

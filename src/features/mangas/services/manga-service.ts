@@ -3,7 +3,9 @@ import { api } from "@/shared/lib/api";
 import type {
   JikanMangaResponse,
   JikanMangaDetailResponse,
+  MangaRecommendation,
 } from "../types/manga";
+import type { AnimeGenre } from "../../animes/types/anime";
 
 export interface MangaSearchParams {
   q?: string;
@@ -48,11 +50,13 @@ export const mangaService = {
     return api.get(`/manga/${id}`);
   },
 
-  getMangaRecommendations: async (id: number): Promise<{ data: any[] }> => {
+  getMangaRecommendations: async (
+    id: number,
+  ): Promise<{ data: MangaRecommendation[] }> => {
     return api.get(`/manga/${id}/recommendations`);
   },
 
-  getGenres: async (): Promise<{ data: any[] }> => {
+  getGenres: async (): Promise<{ data: AnimeGenre[] }> => {
     return api.get("/genres/manga");
   },
 };

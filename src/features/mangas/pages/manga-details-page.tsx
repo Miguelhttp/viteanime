@@ -8,7 +8,7 @@ import { useDocumentTitle } from "@/shared/hooks/use-document-title";
 import { OptimizedImage } from "@/shared/components/ui/optimized-image";
 import { Star, BookOpen, ChevronLeft, Info } from "lucide-react";
 
-import type { Manga } from "../types/manga";
+import type { Manga, MangaRecommendation } from "../types/manga";
 import type { AnimeGenre } from "../../animes/types/anime";
 
 export default function MangaDetailsPage() {
@@ -30,11 +30,11 @@ export default function MangaDetailsPage() {
 
   if (error || !response?.data) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-950">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-zinc-950">
         <h1 className="text-2xl font-bold text-white">Mangá não encontrado</h1>
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white"
+          className="flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-zinc-400 ring-1 ring-white/10 transition-all hover:bg-zinc-800 hover:text-white"
         >
           <ChevronLeft className="h-5 w-5" />
           Voltar
@@ -48,7 +48,7 @@ export default function MangaDetailsPage() {
 
   const recommendedMangas: Manga[] = Array.from(
     new Map(
-      (recommendationsData?.data || []).map((rec: any) => [
+      (recommendationsData?.data || []).map((rec: MangaRecommendation) => [
         rec.entry.mal_id,
         {
           ...rec.entry,
@@ -56,13 +56,13 @@ export default function MangaDetailsPage() {
           synopsis: "",
           genres: [],
           type: "Manga",
-        },
+        } as unknown as Manga,
       ]),
     ).values(),
-  ) as Manga[];
+  );
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-20">
+    <div className="min-h-screen bg-zinc-950 pb-20">
       {/* Hero Section */}
       <div className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh]">
         <OptimizedImage
@@ -74,7 +74,7 @@ export default function MangaDetailsPage() {
           alt={manga.title}
           containerClassName="h-full w-full"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
 
         {/* Hero Content */}
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-4 pb-12 sm:px-6">
@@ -113,12 +113,12 @@ export default function MangaDetailsPage() {
                 {manga.title}
               </h1>
 
-              <p className="line-clamp-3 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
+              <p className="line-clamp-3 max-w-2xl text-sm leading-relaxed text-zinc-300 sm:text-base">
                 {manga.synopsis}
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-black text-slate-950 transition-all hover:scale-105 active:scale-95 sm:px-10">
+                <button className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-black text-zinc-950 transition-all hover:scale-105 active:scale-95 sm:px-10">
                   <BookOpen className="h-5 w-5" />
                   LER AGORA
                 </button>
@@ -139,7 +139,7 @@ export default function MangaDetailsPage() {
               </span>
               <h2 className="text-xl font-bold">Sinopse</h2>
             </div>
-            <p className="text-lg leading-relaxed text-slate-400">
+            <p className="text-lg leading-relaxed text-zinc-400">
               {manga.synopsis || "Sem sinopse disponível."}
             </p>
           </section>
@@ -151,34 +151,34 @@ export default function MangaDetailsPage() {
 
           <div className="space-y-6">
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Capítulos</span>
+              <span className="text-zinc-400">Capítulos</span>
               <span className="font-bold text-white">
                 {manga.chapters || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Volumes</span>
+              <span className="text-zinc-400">Volumes</span>
               <span className="font-bold text-white">
                 {manga.volumes || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Status</span>
+              <span className="text-zinc-400">Status</span>
               <span className="font-bold text-white">{manga.status}</span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Autores</span>
+              <span className="text-zinc-400">Autores</span>
               <span className="font-bold text-blue-400">
                 {manga.authors?.map((a) => a.name).join(", ") || "Desconhecido"}
               </span>
             </div>
             <div className="space-y-2">
-              <span className="text-slate-400">Gêneros</span>
+              <span className="text-zinc-400">Gêneros</span>
               <div className="flex flex-wrap gap-2 pt-2">
                 {manga.genres?.map((g: AnimeGenre) => (
                   <span
                     key={g.mal_id}
-                    className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300"
+                    className="rounded-lg bg-zinc-800 px-3 py-1.5 text-xs font-bold text-zinc-300"
                   >
                     {g.name}
                   </span>

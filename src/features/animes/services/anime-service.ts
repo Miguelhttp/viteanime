@@ -1,6 +1,10 @@
 // src/services/api/anime.ts
 import { api } from "@/shared/lib/api";
-import type { JikanResponse } from "../types/anime";
+import type {
+  JikanResponse,
+  AnimeGenre,
+  AnimeRecommendation,
+} from "../types/anime";
 
 export interface SearchParams {
   q?: string;
@@ -18,7 +22,9 @@ export const animeService = {
     return api.get(`/seasons/now?page=${page}&limit=${limit}`);
   },
 
-  getSeasonList: async (): Promise<{ data: any[] }> => {
+  getSeasonList: async (): Promise<{
+    data: { year: number; seasons: string[] }[];
+  }> => {
     return api.get("/seasons");
   },
 
@@ -44,7 +50,7 @@ export const animeService = {
     return api.get(`/anime?${queryParams.toString()}`);
   },
 
-  getGenres: async (): Promise<{ data: any[] }> => {
+  getGenres: async (): Promise<{ data: AnimeGenre[] }> => {
     return api.get("/genres/anime");
   },
 
@@ -52,7 +58,9 @@ export const animeService = {
     return api.get(`/anime/${id}`);
   },
 
-  getAnimeRecommendations: async (id: number): Promise<{ data: any[] }> => {
+  getAnimeRecommendations: async (
+    id: number,
+  ): Promise<{ data: AnimeRecommendation[] }> => {
     return api.get(`/anime/${id}/recommendations`);
   },
 

@@ -25,7 +25,7 @@ function StatCard({
   return (
     <Link
       to={href}
-      className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-4 transition-all hover:border-white/10 hover:bg-slate-900 sm:p-6"
+      className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-white/5 bg-zinc-900/50 p-4 transition-all hover:border-white/10 hover:bg-zinc-900 sm:p-6"
     >
       <div
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${bg} ${color} ring-1 ring-white/10 transition-transform ring-inset group-hover:scale-110`}

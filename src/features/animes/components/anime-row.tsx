@@ -72,20 +72,20 @@ export function AnimeRow({
       <div className="flex items-center justify-between px-1">
         <h2 className="text-lg font-black tracking-tight text-white sm:text-2xl">
           {title}{" "}
-          <span className="ml-2 text-[10px] font-medium text-slate-500 sm:text-xs">
+          <span className="ml-2 text-[10px] font-medium text-zinc-500 sm:text-xs">
             ({animes.length})
           </span>
         </h2>
         {viewAllHref ? (
           <Link
             to={viewAllHref}
-            className="group flex items-center gap-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase transition-colors hover:text-white sm:text-xs"
+            className="group flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-500 uppercase transition-colors hover:text-white sm:text-xs"
           >
             Ver Tudo
             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         ) : (
-          <span className="flex items-center gap-1 text-[10px] font-bold tracking-widest text-slate-600 uppercase sm:text-xs">
+          <span className="flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-600 uppercase sm:text-xs">
             Ver Tudo
             <ChevronRight className="h-4 w-4" />
           </span>
@@ -97,7 +97,7 @@ export function AnimeRow({
         {showLeftArrow && (
           <button
             onClick={() => scroll("left")}
-            className="absolute top-1/2 -left-4 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/5 bg-slate-950/80 p-3 text-white shadow-2xl backdrop-blur-xl transition-all hover:scale-110 hover:bg-white hover:text-slate-950 md:flex"
+            className="absolute top-1/2 -left-4 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/5 bg-zinc-950/80 p-3 text-white shadow-2xl backdrop-blur-xl transition-all hover:scale-110 hover:bg-white hover:text-zinc-950 md:flex"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
@@ -107,7 +107,7 @@ export function AnimeRow({
         {showRightArrow && (
           <button
             onClick={() => scroll("right")}
-            className="absolute top-1/2 -right-4 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/5 bg-slate-950/80 p-3 text-white shadow-2xl backdrop-blur-xl transition-all hover:scale-110 hover:bg-white hover:text-slate-950 md:flex"
+            className="absolute top-1/2 -right-4 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/5 bg-zinc-950/80 p-3 text-white shadow-2xl backdrop-blur-xl transition-all hover:scale-110 hover:bg-white hover:text-zinc-950 md:flex"
           >
             <ChevronRight className="h-6 w-6" />
           </button>

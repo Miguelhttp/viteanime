@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 
-import { useNavigation } from "@/shared/hooks/use-navigation";
+import { useNavigation } from "@/shared/hooks/use-navigation-context";
 import { TypeaheadSearch } from "@/shared/components/ui/typeahead-search";
-import { useAuth } from "@/shared/contexts/auth-context";
+import { useAuth } from "@/shared/contexts/auth-types";
 import { Link } from "react-router";
 
 export function Topbar() {
@@ -13,14 +13,14 @@ export function Topbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between bg-slate-950/50 px-4 backdrop-blur-2xl transition-all sm:h-20 sm:px-8 lg:bg-transparent">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between bg-zinc-950/50 px-4 backdrop-blur-2xl transition-all sm:h-20 sm:px-8 lg:bg-transparent">
       {/* Mobile Search Overlay */}
       {isSearchOpen && (
-        <div className="absolute inset-0 z-50 flex items-center bg-slate-950 px-4 md:hidden">
+        <div className="absolute inset-0 z-50 flex items-center bg-zinc-950 px-4 md:hidden">
           <TypeaheadSearch
             placeholder="Encontre seu anime..."
             className="flex-1"
-            inputClassName="h-12 rounded-2xl bg-white/5 pr-12 pl-12 text-sm text-white placeholder-slate-500 ring-1 ring-white/10 focus:ring-white/20 focus:outline-none"
+            inputClassName="h-12 rounded-2xl bg-white/5 pr-12 pl-12 text-sm text-white placeholder-zinc-500 ring-1 ring-white/10 focus:ring-white/20 focus:outline-none"
             onSelect={() => setIsSearchOpen(false)}
           />
           <button
@@ -37,11 +37,11 @@ export function Topbar() {
       >
         <button
           onClick={toggleSidebarMobile}
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-slate-400 transition-all hover:bg-white/10 hover:text-white lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-zinc-400 transition-all hover:bg-white/10 hover:text-white lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </button>
-        <div className="hidden text-sm font-medium text-slate-400 lg:block">
+        <div className="hidden text-sm font-medium text-zinc-400 lg:block">
           {user ? (
             <>
               Bem-vindo, <span className="text-white">{user.name}</span>
@@ -56,7 +56,7 @@ export function Topbar() {
 
       {/* Logo Mobile */}
       <div className={`lg:hidden ${isSearchOpen ? "hidden" : "block"}`}>
-        <span className="bg-linear-to-r from-white to-slate-400 bg-clip-text text-lg font-black tracking-tighter text-transparent sm:text-xl">
+        <span className="bg-linear-to-r from-white to-zinc-400 bg-clip-text text-lg font-black tracking-tighter text-transparent sm:text-xl">
           VITEANIME
         </span>
       </div>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { useAnimeDetails } from "../hooks/use-anime-details";
 import { useAnimeRecommendations } from "../hooks/use-anime-recommendations";
 import { useUserLists, type ListType } from "@/shared/hooks/use-user-lists";
-import { useAuth } from "@/shared/contexts/auth-context";
+import { useAuth } from "@/shared/contexts/auth-types";
 import { AnimeRow } from "../components/anime-row";
 import { AnimeDetailsSkeleton } from "../components/skeletons";
 import { useDocumentTitle } from "@/shared/hooks/use-document-title";
@@ -18,7 +18,12 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-import type { AnimeGenre, AnimeStudio, Anime } from "../types/anime";
+import type {
+  AnimeGenre,
+  AnimeStudio,
+  Anime,
+  AnimeRecommendation,
+} from "../types/anime";
 
 export default function AnimeDetailsPage() {
   const { id } = useParams();
@@ -39,11 +44,11 @@ export default function AnimeDetailsPage() {
 
   if (error || !response?.data) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-950">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-zinc-950">
         <h1 className="text-2xl font-bold text-white">Anime não encontrado</h1>
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-slate-400 ring-1 ring-white/10 transition-all hover:bg-slate-800 hover:text-white"
+          className="flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-zinc-400 ring-1 ring-white/10 transition-all hover:bg-zinc-800 hover:text-white"
         >
           <ChevronLeft className="h-5 w-5" />
           Voltar
@@ -58,21 +63,21 @@ export default function AnimeDetailsPage() {
   // Mapeia as recomendações para o formato do AnimeCard
   const recommendedAnimes: Anime[] = Array.from(
     new Map(
-      (recommendationsData?.data || []).map((rec: any) => [
+      (recommendationsData?.data || []).map((rec: AnimeRecommendation) => [
         rec.entry.mal_id,
         {
           ...rec.entry,
           score: null,
           synopsis: "",
           genres: [],
-          type: "Anime",
-        },
+          type: "TV",
+        } as unknown as Anime,
       ]),
     ).values(),
-  ) as Anime[];
+  );
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-20">
+    <div className="min-h-screen bg-zinc-950 pb-20">
       {/* Hero Section */}
       <div className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh]">
         <OptimizedImage
@@ -83,7 +88,7 @@ export default function AnimeDetailsPage() {
           alt={anime.title}
           containerClassName="h-full w-full"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
 
         {/* Hero Content */}
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-4 pb-12 sm:px-6">
@@ -122,16 +127,16 @@ export default function AnimeDetailsPage() {
                 {anime.title}
               </h1>
 
-              <p className="line-clamp-3 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
+              <p className="line-clamp-3 max-w-2xl text-sm leading-relaxed text-zinc-300 sm:text-base">
                 {anime.synopsis}
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-black text-slate-950 transition-all hover:scale-105 active:scale-95 sm:px-10">
+                <button className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-black text-zinc-950 transition-all hover:scale-105 active:scale-95 sm:px-10">
                   <Play className="h-5 w-5 fill-current" />
                   ASSISTIR AGORA
                 </button>
-                <button className="flex items-center gap-3 rounded-xl bg-slate-900 px-8 py-4 font-black text-white ring-1 ring-white/10 transition-all hover:bg-slate-800 sm:px-10">
+                <button className="flex items-center gap-3 rounded-xl bg-zinc-900 px-8 py-4 font-black text-white ring-1 ring-white/10 transition-all hover:bg-zinc-800 sm:px-10">
                   <Play className="h-5 w-5" />
                   TRAILER
                 </button>
@@ -157,7 +162,7 @@ export default function AnimeDetailsPage() {
               </span>
               <h2 className="text-xl font-bold">Sinopse</h2>
             </div>
-            <p className="text-lg leading-relaxed text-slate-400">
+            <p className="text-lg leading-relaxed text-zinc-400">
               {anime.synopsis}
             </p>
           </section>
@@ -178,46 +183,46 @@ export default function AnimeDetailsPage() {
         </div>
 
         {/* Right Column - Tech Specs */}
-        <div className="space-y-8 rounded-2xl bg-slate-900/50 p-8 ring-1 ring-white/5">
+        <div className="space-y-8 rounded-2xl bg-zinc-900/50 p-8 ring-1 ring-white/5">
           <h2 className="text-xl font-bold text-white">Informações Técnicas</h2>
 
           <div className="space-y-6">
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Episódios</span>
+              <span className="text-zinc-400">Episódios</span>
               <span className="font-bold text-white">
                 {anime.episodes || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Duração</span>
+              <span className="text-zinc-400">Duração</span>
               <span className="font-bold text-white">
                 {anime.duration || "?"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Status</span>
+              <span className="text-zinc-400">Status</span>
               <span className="font-bold text-white">{anime.status}</span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Estúdio</span>
+              <span className="text-zinc-400">Estúdio</span>
               <span className="font-bold text-blue-400">
                 {anime.studios?.map((s: AnimeStudio) => s.name).join(", ") ||
                   "Desconhecido"}
               </span>
             </div>
             <div className="flex justify-between border-b border-white/5 pb-4">
-              <span className="text-slate-400">Classificação</span>
+              <span className="text-zinc-400">Classificação</span>
               <span className="font-bold text-white">
                 {anime.rating || "Livre"}
               </span>
             </div>
             <div className="space-y-2">
-              <span className="text-slate-400">Gêneros</span>
+              <span className="text-zinc-400">Gêneros</span>
               <div className="flex flex-wrap gap-2 pt-2">
                 {anime.genres?.map((g: AnimeGenre) => (
                   <span
                     key={g.mal_id}
-                    className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300"
+                    className="rounded-lg bg-zinc-800 px-3 py-1.5 text-xs font-bold text-zinc-300"
                   >
                     {g.name}
                   </span>
@@ -242,7 +247,7 @@ export default function AnimeDetailsPage() {
   );
 }
 
-function UserListActions({ anime }: { anime: any }) {
+function UserListActions({ anime }: { anime: Anime }) {
   const { getItemListType, addToList, removeFromList } = useUserLists();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -264,7 +269,7 @@ function UserListActions({ anime }: { anime: any }) {
   const actions: {
     id: ListType;
     label: string;
-    icon: any;
+    icon: typeof Heart;
     color: string;
     bg: string;
   }[] = [
@@ -306,7 +311,7 @@ function UserListActions({ anime }: { anime: any }) {
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-bold transition-all sm:text-sm ${
                 isActive
                   ? `${bg} ${color} ring-1`
-                  : "bg-slate-900 text-slate-400 ring-1 ring-white/10 hover:bg-slate-800 hover:text-white"
+                  : "bg-zinc-900 text-zinc-400 ring-1 ring-white/10 hover:bg-zinc-800 hover:text-white"
               }`}
             >
               <Icon className={`h-4 w-4 ${isActive ? "fill-current" : ""}`} />

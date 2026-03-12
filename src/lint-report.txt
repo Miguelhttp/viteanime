@@ -1,0 +1,68 @@
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\features\mangas\pages\manga-details-page.tsx
+  51:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\features\mangas\pages\mangas-page.tsx
+   46:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   47:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  231:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  234:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\features\mangas\services\manga-service.ts
+  51:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\providers\query-provider.tsx
+  24:10  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\components\ui\skeleton.tsx
+  1:11  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\components\ui\typeahead-search.tsx
+  31:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\components\ui\typeahead-search.tsx:31:5
+  29 |   // Abre dropdown quando tem resultados
+  30 |   useEffect(() => {
+> 31 |     setIsOpen(hasQuery && (results.length > 0 || isSearching));
+     |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  32 |     setActiveIndex(-1);
+  33 |   }, [results, hasQuery, isSearching]);
+  34 |  react-hooks/set-state-in-effect
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\contexts\auth-context.tsx
+   38:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\contexts\auth-context.tsx:38:9
+  36 |       try {
+  37 |         const activeUser = JSON.parse(sessionPath);
+> 38 |         setUser(activeUser);
+     |         ^^^^^^^ Avoid calling setState() directly within an effect
+  39 |       } catch (e) {
+  40 |         localStorage.removeItem(SESSION_STORAGE_KEY);
+  41 |       }  react-hooks/set-state-in-effect
+   39:16  error  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   51:20  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   73:20  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  116:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-refresh/only-export-components
+
+C:\Users\Miguel\Documents\frontend\typescript\viteanime\src\shared\hooks\use-navigation.tsx
+  27:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  37:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  97:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+Ô£û 19 problems (19 errors, 0 warnings)
+
