@@ -44,6 +44,7 @@ export default function Carousel({ animes, isLoading, error }: CarouselProps) {
               anime={anime}
               isActive={index === currentIndex}
               textRef={textRef}
+              priority={index === 0}
             />
           ))}
         </div>

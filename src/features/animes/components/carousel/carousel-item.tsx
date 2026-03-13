@@ -6,12 +6,14 @@ interface CarouselItemProps {
   anime: Anime;
   isActive: boolean;
   textRef: React.RefObject<HTMLDivElement | null>;
+  priority?: boolean;
 }
 
 export const CarouselItem = ({
   anime,
   isActive,
   textRef,
+  priority,
 }: CarouselItemProps) => (
   <div className="relative h-full w-full shrink-0 overflow-hidden">
     <picture>
@@ -26,6 +28,10 @@ export const CarouselItem = ({
       <img
         src={anime.images.jpg.large_image_url || ""}
         alt={anime.title}
+        width={1280}
+        height={720}
+        fetchPriority={priority ? "high" : "auto"}
+        loading={priority ? "eager" : "lazy"}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
     </picture>

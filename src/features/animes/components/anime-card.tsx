@@ -29,6 +29,8 @@ export function AnimeCard({ anime }: AnimeCardProps) {
           anime.images.webp.image_url || anime.images.jpg.image_url || undefined
         }
         alt={anime.title}
+        width={300}
+        height={450}
         className="group-hover:scale-110"
         containerClassName="h-full w-full"
       />

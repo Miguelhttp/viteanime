@@ -37,7 +37,6 @@ export function OptimizedImage({
         )}
         onLoad={() => setIsLoaded(true)}
         onError={() => setError(true)}
-        loading="lazy"
         {...props}
       />
     </div>
