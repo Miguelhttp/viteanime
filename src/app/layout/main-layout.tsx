@@ -6,6 +6,7 @@ import { Footer } from "@/shared/components/navigation/footer";
 import { FeedbackWidget } from "@/shared/components/ui/feedback-widget";
 import { useNavigation } from "@/shared/hooks/use-navigation-context";
 import { PageTransition } from "@/shared/components/ui/page-transition";
+import { SEO } from "@/shared/components/ui/seo";
 
 export default function MainLayout() {
   const { isSidebarCollapsed } = useNavigation();
@@ -14,6 +15,7 @@ export default function MainLayout() {
 
   return (
     <div className="relative flex min-h-screen w-full overflow-x-hidden bg-(--background) text-(--foreground) transition-colors duration-300">
+      <SEO />
       <Sidebar />
 
       {/* Main Content Area */}

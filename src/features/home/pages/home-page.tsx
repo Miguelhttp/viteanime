@@ -4,13 +4,24 @@ import { useUpcomingAnimes } from "../../animes/hooks/use-upcoming-animes";
 import { QuickStats } from "../../../shared/components/features/quick-stats";
 import Carousel from "../../animes/components/carousel/carousel";
 import { AnimeRow } from "../../animes/components/anime-row";
-import { useDocumentTitle } from "@/shared/hooks/use-document-title";
+import { SEO } from "@/shared/components/ui/seo";
 
 export default function Home() {
   // Custom Hooks personalizados para cada tipo de requisição
   // Cada hook faz uma requisição diferente para a API
   // trazendo os animes da temporada atual
-  useDocumentTitle("Início");
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "ViteAnime",
+    url: "https://vite-anime.vercel.app",
+    description: "Descubra, acompanhe e compartilhe seus animes favoritos.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://vite-anime.vercel.app/animes?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
 
   const { data: seasonalData, isLoading: isSeasonalLoading } =
     useCurrentSeasonAnimes();
@@ -28,6 +39,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 pt-4 pb-12 sm:gap-16 sm:pt-10 sm:pb-16">
+      <SEO
+        title="Início"
+        description="Acompanhe os animes da temporada, veja os mais populares e organize sua lista no ViteAnime."
+        schemaData={homeSchema}
+      />
       {/* Banner Carrossel */}
       <Carousel
         animes={seasonalAnimes}
