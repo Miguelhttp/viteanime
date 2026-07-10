@@ -1,70 +1,78 @@
 # ViteAnime - Plataforma de Streaming de Anime
 
-Uma aplicação web moderna e premium para descoberta de animes, inspirada nas melhores plataformas de streaming do mercado.
+Aplicação web moderna para descoberta, navegação e organização de animes e mangas, com foco em experiência visual premium, performance e navegação fluida.
 
-## 🚀 Tecnologias
+## Leitura do projeto
 
-- **React 19** com **TypeScript**
-- **Vite** para build ultra-rápido
-- **Tailwind CSS 4** para estilização moderna
-- **TanStack Query (React Query)** para gerenciamento de estado e cache de API
-- **Lucide React** para ícones consistentes
-- **GSAP & Framer Motion** para animações fluidas
-- **Jikan API** (Wrapper não-oficial da MyAnimeList)
+### Visão geral
+O projeto é um front-end moderno, voltado para a experiência de usuário em uma interface inspirada em plataformas de streaming. A proposta principal é facilitar a descoberta de conteúdos, apresentar listas organizadas e oferecer uma navegação intuitiva entre páginas de catálogo, detalhes e autenticação.
 
-## 📁 Estrutura do Projeto
+### O que a aplicação oferece
+- Página inicial com carrossel e seções de conteúdo destacadas.
+- Catálogo de animes e mangas com páginas específicas para exploração.
+- Detalhes de cada item, incluindo recomendações e informações adicionais.
+- Fluxo de autenticação com login, cadastro e área protegida para watchlist.
+- SEO básico e carregamento sob demanda para melhorar a performance.
 
-O projeto segue uma arquitetura modular baseada em funcionalidades (features):
+### Arquitetura e organização
+O projeto segue uma estrutura modular baseada em features, o que facilita a manutenção e a expansão.
 
-- `src/app/`: Configurações globais, rotas e layouts principais.
-- `src/features/`: Módulos específicos da aplicação.
-  - `animes/`: Componentes core (cards, rows, carousel), hooks de API e serviços.
-  - `home/`: Páginas e componentes específicos da landing page.
-- `src/shared/`: Componentes, hooks e componentes de navegação compartilhados (Sidebar, Topbar).
-- `src/styles/`: Estilos globais e tokens do CSS.
+- src/app: rotas, layout principal e páginas globais.
+- src/features: módulos de negócio separados por domínio.
+  - animes: catálogo, serviços, hooks, componentes e páginas.
+  - mangas: estrutura semelhante para o universo de mangás.
+  - home: tela inicial.
+  - auth: autenticação.
+- src/shared: componentes, hooks e elementos reutilizáveis compartilhados.
+- src/styles: estilos globais da aplicação.
 
-## 🔑 Componentes Principais
+### Tecnologias principais
+- React 19 com TypeScript
+- Vite para desenvolvimento e build rápido
+- Tailwind CSS para estilização moderna
+- TanStack Query para gerenciamento de dados e cache
+- Axios para integração com APIs
+- Lucide React, GSAP e Motion para UI e animações
 
-### Navegação (Web Standard)
+### Fluxo de funcionamento
+1. A aplicação inicia no ponto principal de renderização em src/main.tsx.
+2. O componente de rotas em src/app.tsx define a navegação entre páginas.
+3. As páginas consomem dados por meio de hooks e serviços específicos.
+4. A home reúne diferentes listas de conteúdo e monta a experiência inicial.
 
-- **Sidebar**: Menu lateral único, responsivo (overlay no mobile, colapsável no desktop).
-- **Topbar**: Cabeçalho inteligente com busca expansível no mobile e barra de busca fixa no desktop.
+### Pontos de atenção para averiguação
+- O projeto tem uma boa separação entre camadas e features.
+- A arquitetura é adequada para crescimento incremental.
+- Há uma preocupação clara com interface responsiva e carregamento otimizado.
+- O uso de hooks e serviços deixa o fluxo de dados relativamente organizado.
+- O projeto ainda pode evoluir com mais consistência em testes, tipagem de dados e padronização de estados de erro.
 
-### UI de Streaming
-
-- **AnimeCard**: Card otimizado com poster, nota, ano e overlay de hover premium.
-- **AnimeRow**: Fileira horizontal com scroll suave, adaptada para alta densidade no mobile.
-- **Carousel**: Banner principal dinâmico com transições suaves e tipografia adaptável.
-
-## 📱 Responsividade e UX
-
-A aplicação foi rigorosamente ajustada para uma experiência "Mobile-First":
-
-- **Gaps Otimizados**: Espaçamentos reduzidos no mobile para melhor aproveitamento de tela.
-- **Expandable Search**: Busca que ocupa todo o topo no mobile para facilitar a interação.
-- **Zero Horizontal Bleed**: Layout travado verticalmente, permitindo scroll horizontal apenas nas listas de animes.
-
-## 🛠️ Como rodar o projeto
+## Como rodar o projeto
 
 1. Instale as dependências:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 2. Inicie o servidor de desenvolvimento:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-   _Nota: O projeto está configurado para rodar na porta 3000._
+3. Gere uma build de produção:
 
-3. Para build de produção:
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
+
+## Scripts disponíveis
+- npm run dev: inicia o ambiente de desenvolvimento
+- npm run build: gera a build de produção
+- npm run lint: executa a análise estática do projeto
+- npm run preview: visualiza a build localmente
 
 ---
 
-Desenvolvido com foco em performance e estética premium.
+Desenvolvido com foco em performance, estética premium e uma experiência moderna para o usuário.
